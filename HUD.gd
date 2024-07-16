@@ -30,9 +30,9 @@ func _process(delta):
 				stamina_bar.value = 0
 
 	if is_sleeping:
-		portrait.texture = load("res://Parent_sleep.png")
+		portrait.texture = load("res://assets/parent/Parent_sleep.png")
 	else:
-		portrait.texture = load("res://Parent.png")
+		portrait.texture = load("res://assets/parent/Parent.png")
 
 func _on_sleep_button_button_up():
 	sleep_delay.stop()
