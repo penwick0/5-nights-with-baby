@@ -1,0 +1,4 @@
+.vscode/
+# Godot specific ignores
+.godot/
+*.tmp
