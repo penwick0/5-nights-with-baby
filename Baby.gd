@@ -43,7 +43,7 @@ func _process(delta):
 		if not is_parent_sleeping:
 			if get_parent().progress_ratio == 0:
 				state = "sit"
-			print(state)
+				print(state)
 
 	if cry_counter < 0:
 		state = "sit"
