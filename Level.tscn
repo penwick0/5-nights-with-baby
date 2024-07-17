@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bd8r13w6qy4ya"]
+[gd_scene load_steps=19 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
 [ext_resource type="Texture2D" uid="uid://bjnseb43okpxj" path="res://assets/parent/Parent.png" id="2_mn454"]
@@ -8,12 +8,19 @@
 [ext_resource type="Texture2D" uid="uid://bo77l62a8xn7o" path="res://assets/baby/baby_sit.png" id="6_fg8gu"]
 [ext_resource type="Texture2D" uid="uid://cm62k50eb7pw4" path="res://assets/baby/baby_sleep.png" id="7_bllr0"]
 [ext_resource type="Script" path="res://Baby.gd" id="8_ow01t"]
+[ext_resource type="Script" path="res://PathFollow2D.gd" id="9_uyle3"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ohad"]
 bg_color = Color(0.843137, 0.843137, 0.843137, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1ev7"]
 bg_color = Color(0, 0.72549, 0.207843, 1)
+
+[sub_resource type="Curve2D" id="Curve2D_2xjyt"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 183, 282, 0, 0, 0, 0, 50, 285, 0, 0, 0, 0, 52, 182, 0, 0, 0, 0, 127, 173, 0, 0, 0, 0, 126, 152)
+}
+point_count = 5
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_voe6q"]
 atlas = ExtResource("3_p1f1h")
@@ -149,16 +156,29 @@ size_flags_horizontal = 4
 text = "Shh
 "
 
-[node name="Baby" type="AnimatedSprite2D" parent="."]
-position = Vector2(183, 277)
+[node name="WindowPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_2xjyt")
+
+[node name="FollowWindowPath" type="PathFollow2D" parent="WindowPath"]
+position = Vector2(183, 282)
+rotation = 3.11904
+rotates = false
+loop = false
+script = ExtResource("9_uyle3")
+
+[node name="Baby" type="AnimatedSprite2D" parent="WindowPath/FollowWindowPath"]
+position = Vector2(-0.112747, 4.99872)
+rotation = -3.11904
 sprite_frames = SubResource("SpriteFrames_bw1xg")
 animation = &"sit"
 script = ExtResource("8_ow01t")
 
 [connection signal="timeout" from="HUD/SleepDelay" to="HUD" method="_on_sleep_delay_timeout"]
+[connection signal="timeout" from="HUD/SleepDelay" to="WindowPath/FollowWindowPath/Baby" method="_on_sleep_delay_timeout"]
 [connection signal="button_down" from="HUD/SleepButton" to="HUD" method="_on_sleep_button_button_down"]
 [connection signal="button_up" from="HUD/SleepButton" to="HUD" method="_on_sleep_button_button_up"]
+[connection signal="button_up" from="HUD/SleepButton" to="WindowPath/FollowWindowPath/Baby" method="_on_sleep_button_button_up"]
 [connection signal="pressed" from="HUD/ShhButton" to="HUD" method="_on_shh_button_pressed"]
-[connection signal="pressed" from="HUD/ShhButton" to="Baby" method="_on_shh_button_pressed"]
-[connection signal="start_crying" from="Baby" to="HUD" method="_on_baby_start_crying"]
-[connection signal="stop_crying" from="Baby" to="HUD" method="_on_baby_stop_crying"]
+[connection signal="pressed" from="HUD/ShhButton" to="WindowPath/FollowWindowPath/Baby" method="_on_shh_button_pressed"]
+[connection signal="start_crying" from="WindowPath/FollowWindowPath/Baby" to="HUD" method="_on_baby_start_crying"]
+[connection signal="stop_crying" from="WindowPath/FollowWindowPath/Baby" to="HUD" method="_on_baby_stop_crying"]
