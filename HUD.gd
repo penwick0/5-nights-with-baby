@@ -44,10 +44,24 @@ func _process(delta):
 		sleep_button.disabled = false
 		decrement_rate = 2.0
 
+	# Portrait management
 	if is_sleeping:
 		portrait.texture = load("res://assets/parent/Parent_sleep.png")
 	else:
-		portrait.texture = load("res://assets/parent/Parent.png")
+		if stamina_bar.value == 0:
+			portrait.texture = load("res://assets/parent/0%.png")
+		elif stamina_bar.value < 5:
+			portrait.texture = load("res://assets/parent/5%.png")
+		elif stamina_bar.value < 10:
+			portrait.texture = load("res://assets/parent/10%.png")
+		elif stamina_bar.value < 25:
+			portrait.texture = load("res://assets/parent/25%.png")
+		elif stamina_bar.value < 50:
+			portrait.texture = load("res://assets/parent/50%.png")
+		elif stamina_bar.value < 75:
+			portrait.texture = load("res://assets/parent/75%.png")
+		else:
+			portrait.texture = load("res://assets/parent/100%.png")
 
 func _on_sleep_button_button_up():
 	sleep_delay.stop()
