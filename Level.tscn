@@ -1,7 +1,7 @@
 [gd_scene load_steps=29 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
-[ext_resource type="Texture2D" uid="uid://bjnseb43okpxj" path="res://assets/parent/Parent.png" id="2_mn454"]
+[ext_resource type="Texture2D" uid="uid://biaufim8sfgy2" path="res://assets/parent/100%.png" id="2_d3gdg"]
 [ext_resource type="Script" path="res://BabyController.gd" id="3_ope2v"]
 [ext_resource type="Texture2D" uid="uid://d4dlad8wuuer6" path="res://assets/baby/baby_climb.png" id="3_p1f1h"]
 [ext_resource type="Texture2D" uid="uid://chjpxrwfju8fd" path="res://assets/baby/baby_crawl.png" id="4_l7dhf"]
@@ -158,7 +158,7 @@ theme_override_constants/separation = 10
 [node name="Portrait" type="TextureRect" parent="HUD/MarginContainer/Rows/Bottom/Status"]
 unique_name_in_owner = true
 layout_mode = 2
-texture = ExtResource("2_mn454")
+texture = ExtResource("2_d3gdg")
 
 [node name="StaminaBar" type="ProgressBar" parent="HUD/MarginContainer/Rows/Bottom/Status"]
 unique_name_in_owner = true

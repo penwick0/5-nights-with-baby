@@ -6,6 +6,7 @@ class_name BabyController
 @onready var window_path: PathFollow2D = $WindowPath/FollowWindowPath
 @onready var outlet_path: PathFollow2D = $OutletPath/FollowOutletPath
 @onready var hud: HUD = %HUD
+@onready var poop = load("res://poop.tscn")
 
 var timer: float = 0.0
 var state: String = "sit"
@@ -25,7 +26,6 @@ func _ready():
 
 func _process(delta):
 	timer += delta
-
 	# State specific tick rates
 	match state:
 		"sit":
@@ -38,6 +38,8 @@ func _process(delta):
 	# State Management
 	if timer >= rate:
 		timer -= rate
+		if [true, false, false, false, false].pick_random():
+			does_poop()
 		if state == "sit" or state == "sleep":
 			state = states.pick_random()
 			print(state)
@@ -82,3 +84,8 @@ func _process(delta):
 func _on_shh_button_pressed():
 	if state == "cry":
 		cry_counter -= 1
+
+func does_poop():
+	var instance = poop.instantiate()
+	instance.spawn_position = sprite.global_position
+	hud.add_child.call_deferred(instance)
