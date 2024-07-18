@@ -1,21 +1,216 @@
-[gd_scene load_steps=2 format=3 uid="uid://cheqnh56onjr6"]
+[gd_scene load_steps=26 format=3 uid="uid://cheqnh56onjr6"]
 
 [ext_resource type="Script" path="res://Poop.gd" id="1_kpunl"]
+[ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="2_b470p"]
+[ext_resource type="Texture2D" uid="uid://j44tmbkdsswd" path="res://assets/baby/stink_clouds.png" id="3_cem2c"]
+[ext_resource type="Texture2D" uid="uid://cugcypcc7bxtp" path="res://assets/baby/stink_lines.png" id="4_wvgas"]
 
-[node name="Poop" type="ColorRect"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sh1nu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gmsr3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ao8o"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0.704972, 0.496329, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gfkha"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_02rys"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ge8kg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_b470p")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_cw7s5"]
+particles_animation = true
+particles_anim_h_frames = 3
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_5pays"]
+_data = [Vector2(0, 0), 0.0, 2.64628, 0, 0, Vector2(1, 0), -2.29588, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_e1dlt"]
+curve = SubResource("Curve_5pays")
+
+[sub_resource type="Curve" id="Curve_81ra7"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_l8u8p"]
+curve = SubResource("Curve_81ra7")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vjw53"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(5, 5, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+velocity_pivot = Vector3(0, 10, 0)
+direction = Vector3(0, -1, 0)
+angular_velocity_max = 15.0
+radial_velocity_min = 10.0
+radial_velocity_max = 20.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_l8u8p")
+alpha_curve = SubResource("CurveTexture_e1dlt")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwjp6"]
+atlas = ExtResource("4_wvgas")
+region = Rect2(0, 0, 4, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eyyqa"]
+atlas = ExtResource("4_wvgas")
+region = Rect2(4, 0, 4, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sdysh"]
+atlas = ExtResource("4_wvgas")
+region = Rect2(8, 0, 4, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukfi8"]
+atlas = ExtResource("4_wvgas")
+region = Rect2(12, 0, 4, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfwpq"]
+atlas = ExtResource("4_wvgas")
+region = Rect2(16, 0, 4, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2cte"]
+atlas = ExtResource("4_wvgas")
+region = Rect2(20, 0, 4, 13)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7mtmt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwjp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyyqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdysh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukfi8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfwpq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2cte")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fk71r"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfwpq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2cte")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwjp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyyqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdysh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukfi8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d14vn"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sdysh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukfi8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfwpq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2cte")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwjp6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyyqa")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="Poop" type="Button"]
+custom_minimum_size = Vector2(40, 40)
 offset_right = 40.0
 offset_bottom = 40.0
-color = Color(0.282353, 0.172549, 0.0784314, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_sh1nu")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_gmsr3")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_8ao8o")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_gfkha")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_02rys")
 script = ExtResource("1_kpunl")
-
-[node name="CleanButton" type="Button" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
 
 [node name="CleanTimer" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="button_down" from="CleanButton" to="." method="_on_clean_button_button_down"]
-[connection signal="button_up" from="CleanButton" to="." method="_on_clean_button_button_up"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(20, 25)
+sprite_frames = SubResource("SpriteFrames_ge8kg")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="AnimatedSprite2D"]
+material = SubResource("CanvasItemMaterial_cw7s5")
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_vjw53")
+texture = ExtResource("3_cem2c")
+
+[node name="StinkLine1" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+position = Vector2(7, -9)
+sprite_frames = SubResource("SpriteFrames_7mtmt")
+autoplay = "default"
+frame = 1
+frame_progress = 0.0363146
+
+[node name="StinkLine2" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+position = Vector2(-7, -8)
+sprite_frames = SubResource("SpriteFrames_fk71r")
+autoplay = "default"
+
+[node name="StinkLine3" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+position = Vector2(0, -14)
+sprite_frames = SubResource("SpriteFrames_d14vn")
+autoplay = "default"
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="button_up" from="." to="." method="_on_button_up"]
 [connection signal="timeout" from="CleanTimer" to="." method="_on_clean_timer_timeout"]
