@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bd8r13w6qy4ya"]
+[gd_scene load_steps=28 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
 [ext_resource type="Texture2D" uid="uid://bjnseb43okpxj" path="res://assets/parent/Parent.png" id="2_mn454"]
@@ -15,6 +15,30 @@ bg_color = Color(0.843137, 0.843137, 0.843137, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1ev7"]
 bg_color = Color(0, 0.72549, 0.207843, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4xta"]
+bg_color = Color(0.292061, 0.393343, 0.689076, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cxrtk"]
+bg_color = Color(0.213534, 0.299598, 0.558357, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_06232"]
+bg_color = Color(0.163893, 0.236075, 0.454236, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2n536"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s3602"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4tyxo"]
+bg_color = Color(0.292061, 0.393343, 0.689076, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_74leh"]
+bg_color = Color(0.213534, 0.299598, 0.558357, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtnpx"]
+bg_color = Color(0.163893, 0.236075, 0.454236, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sjqp1"]
 
 [sub_resource type="Curve2D" id="Curve2D_2xjyt"]
 _data = {
@@ -100,59 +124,71 @@ one_shot = true
 [node name="SleepDelay" type="Timer" parent="HUD"]
 one_shot = true
 
-[node name="Portrait" type="TextureRect" parent="HUD"]
-anchors_preset = 2
-anchor_top = 1.0
+[node name="MarginContainer" type="MarginContainer" parent="HUD"]
+anchors_preset = 15
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -178.0
-offset_right = 92.0
-grow_vertical = 0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Rows" type="VBoxContainer" parent="HUD/MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="Bottom" type="HBoxContainer" parent="HUD/MarginContainer/Rows"]
+layout_direction = 2
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Status" type="HBoxContainer" parent="HUD/MarginContainer/Rows/Bottom"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Portrait" type="TextureRect" parent="HUD/MarginContainer/Rows/Bottom/Status"]
+unique_name_in_owner = true
+layout_mode = 2
 texture = ExtResource("2_mn454")
 
-[node name="StaminaBar" type="ProgressBar" parent="HUD"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -88.0
-offset_top = -178.0
-offset_right = -84.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="StaminaBar" type="ProgressBar" parent="HUD/MarginContainer/Rows/Bottom/Status"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+size_flags_vertical = 1
 theme_override_styles/background = SubResource("StyleBoxFlat_6ohad")
 theme_override_styles/fill = SubResource("StyleBoxFlat_w1ev7")
+step = 1.0
 value = 100.0
 fill_mode = 3
+show_percentage = false
 
-[node name="SleepButton" type="Button" parent="HUD"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 66.0
-offset_top = -48.0
-offset_right = 99.0
-offset_bottom = -17.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 4
+[node name="Actions" type="HBoxContainer" parent="HUD/MarginContainer/Rows/Bottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="SleepButton" type="Button" parent="HUD/MarginContainer/Rows/Bottom/Actions"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_p4xta")
+theme_override_styles/hover = SubResource("StyleBoxFlat_cxrtk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_06232")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_2n536")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_s3602")
 text = "Zzz"
 
-[node name="ShhButton" type="Button" parent="HUD"]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = 114.0
-offset_top = -48.0
-offset_right = 152.0
-offset_bottom = -17.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 4
+[node name="ShhButton" type="Button" parent="HUD/MarginContainer/Rows/Bottom/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_4tyxo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_74leh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_qtnpx")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_2n536")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_sjqp1")
 text = "Shh
 "
 
@@ -175,10 +211,10 @@ script = ExtResource("8_ow01t")
 
 [connection signal="timeout" from="HUD/SleepDelay" to="HUD" method="_on_sleep_delay_timeout"]
 [connection signal="timeout" from="HUD/SleepDelay" to="WindowPath/FollowWindowPath/Baby" method="_on_sleep_delay_timeout"]
-[connection signal="button_down" from="HUD/SleepButton" to="HUD" method="_on_sleep_button_button_down"]
-[connection signal="button_up" from="HUD/SleepButton" to="HUD" method="_on_sleep_button_button_up"]
-[connection signal="button_up" from="HUD/SleepButton" to="WindowPath/FollowWindowPath/Baby" method="_on_sleep_button_button_up"]
-[connection signal="pressed" from="HUD/ShhButton" to="HUD" method="_on_shh_button_pressed"]
-[connection signal="pressed" from="HUD/ShhButton" to="WindowPath/FollowWindowPath/Baby" method="_on_shh_button_pressed"]
+[connection signal="button_down" from="HUD/MarginContainer/Rows/Bottom/Actions/SleepButton" to="HUD" method="_on_sleep_button_button_down"]
+[connection signal="button_up" from="HUD/MarginContainer/Rows/Bottom/Actions/SleepButton" to="HUD" method="_on_sleep_button_button_up"]
+[connection signal="button_up" from="HUD/MarginContainer/Rows/Bottom/Actions/SleepButton" to="WindowPath/FollowWindowPath/Baby" method="_on_sleep_button_button_up"]
+[connection signal="pressed" from="HUD/MarginContainer/Rows/Bottom/Actions/ShhButton" to="HUD" method="_on_shh_button_pressed"]
+[connection signal="pressed" from="HUD/MarginContainer/Rows/Bottom/Actions/ShhButton" to="WindowPath/FollowWindowPath/Baby" method="_on_shh_button_pressed"]
 [connection signal="start_crying" from="WindowPath/FollowWindowPath/Baby" to="HUD" method="_on_baby_start_crying"]
 [connection signal="stop_crying" from="WindowPath/FollowWindowPath/Baby" to="HUD" method="_on_baby_stop_crying"]
