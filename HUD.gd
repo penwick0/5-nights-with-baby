@@ -39,8 +39,10 @@ func _process(delta):
 		sleep_delay.stop()
 		is_sleeping = false
 		sleep_button.disabled = true
+		decrement_rate = 4.0
 	else:
 		sleep_button.disabled = false
+		decrement_rate = 2.0
 
 	if is_sleeping:
 		portrait.texture = load("res://assets/parent/Parent_sleep.png")
