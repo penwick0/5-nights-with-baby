@@ -1,21 +1,32 @@
-extends AnimatedSprite2D
+extends Node
+
+class_name BabyController
+
+@onready var sprite: AnimatedSprite2D = %BabySprite
+@onready var window_path: PathFollow2D = $WindowPath/FollowWindowPath
+@onready var outlet_path: PathFollow2D = $OutletPath/FollowOutletPath
+@onready var hud: HUD = %HUD
+
 var timer: float = 0.0
 var state: String = "sit"
-var states: Array = ["sit", "sleep", "cry", "window", "outlet"]
+var states: Array = [
+	"sit",
+	"sleep",
+	"cry",
+	"window",
+	"outlet",
+]
 var rate: float = 1.0
 var cry_counter: int = 0
 var is_crying: bool = false
-var is_parent_sleeping: bool = false
-
-signal start_crying
-signal stop_crying
 
 func _ready():
 	pass # Replace with function body.
 
-
 func _process(delta):
 	timer += delta
+
+	# State specific tick rates
 	match state:
 		"sit":
 			rate = 2.0
@@ -24,6 +35,7 @@ func _process(delta):
 		"cry":
 			rate = 2.0
 
+	# State Management
 	if timer >= rate:
 		timer -= rate
 		if state == "sit" or state == "sleep":
@@ -34,42 +46,39 @@ func _process(delta):
 				if [true, false].pick_random():
 					cry_counter += 1
 			else:
-				start_crying.emit()
-				is_parent_sleeping = false
 				is_crying = true
 			print(cry_counter)
 
 	if state == "window" or state == "outlet":
-		if not is_parent_sleeping:
-			if get_parent().progress_ratio == 0:
+		var path = null
+		if state == "window":
+			path = window_path
+		elif state == "outlet":
+			path = outlet_path
+		sprite.reparent(path)
+		if not hud.is_sleeping:
+			if path.progress_ratio == 0:
+				sprite.reparent(self)
 				state = "sit"
-				print(state)
 
 	if cry_counter < 0:
 		state = "sit"
 		cry_counter = 0
 		is_crying = false
-		stop_crying.emit()
 	
 	# Animations
 	match state:
 		"sit":
-			animation = "sit"
+			sprite.animation = "sit"
 		"sleep":
-			animation = "sleep"
+			sprite.animation = "sleep"
 		"cry":
-			animation = "cry"
+			sprite.animation = "cry"
 		"window":
-			animation = "climb"
+			sprite.animation = "climb"
 		"outlet":
-			animation = "crawl"
+			sprite.animation = "crawl"
 
 func _on_shh_button_pressed():
 	if state == "cry":
 		cry_counter -= 1
-
-func _on_sleep_delay_timeout():
-	is_parent_sleeping = true
-
-func _on_sleep_button_button_up():
-	is_parent_sleeping = false
