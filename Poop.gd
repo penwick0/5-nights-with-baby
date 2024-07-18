@@ -13,4 +13,5 @@ func _on_clean_button_button_up():
 	clean_timer.stop()
 
 func _on_clean_timer_timeout():
+	get_parent().poop_counter -= 1
 	queue_free()

@@ -42,14 +42,12 @@ func _process(delta):
 			does_poop()
 		if state == "sit" or state == "sleep":
 			state = states.pick_random()
-			print(state)
 		if state == "cry":
 			if is_crying:
 				if [true, false].pick_random():
 					cry_counter += 1
 			else:
 				is_crying = true
-			print(cry_counter)
 
 	if state == "window" or state == "outlet":
 		var path = null
@@ -89,3 +87,4 @@ func does_poop():
 	var instance = poop.instantiate()
 	instance.spawn_position = sprite.global_position
 	hud.add_child.call_deferred(instance)
+	hud.poop_counter += 1

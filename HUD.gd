@@ -9,19 +9,21 @@ class_name HUD
 @onready var sleep_button = %SleepButton
 @onready var baby: BabyController = %BabyController
 
-var increment_rate: float = 1.0
-var decrement_rate: float = 2.0
+var increment_rate: float
+var decrement_rate: float
 var timer: float = 0
 var is_sleeping: bool = false
+var poop_counter: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
+	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	timer += delta
+	increment_rate = 2.0 / (1.0 + float(poop_counter))
+	decrement_rate = (2.0 + poop_counter) * (1 + int(baby.is_crying))
 	if timer >= 1.0:
 		timer -= 1.0
 		if is_sleeping:
@@ -39,10 +41,8 @@ func _process(delta):
 		sleep_delay.stop()
 		is_sleeping = false
 		sleep_button.disabled = true
-		decrement_rate = 4.0
 	else:
 		sleep_button.disabled = false
-		decrement_rate = 2.0
 
 	# Portrait management
 	if is_sleeping:
