@@ -7,6 +7,7 @@ class_name BabyController
 @onready var outlet_path: PathFollow2D = $OutletPath/FollowOutletPath
 @onready var hud: HUD = %HUD
 @onready var poop = load("res://poop.tscn")
+@onready var action_timer = $BabyActionTimer
 
 var timer: float = 0.0
 var state: String = "sit"

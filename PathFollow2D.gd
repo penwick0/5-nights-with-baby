@@ -14,3 +14,7 @@ func _process(delta):
 			progress_ratio += 0.25 * delta
 		else:
 			progress_ratio -= 2 * delta
+	if progress_ratio == 1.0:
+		baby.action_timer.start()
+	else:
+		baby.action_timer.stop()
