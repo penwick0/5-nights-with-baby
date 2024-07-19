@@ -14,6 +14,6 @@ func _process(delta):
 			progress_ratio += 0.25 * delta
 		else:
 			progress_ratio -= 2 * delta
-	if progress_ratio == 1.0 and baby.is_doing_action == false:
-		baby.action_timer.start()
-		baby.is_doing_action = true
+
+	if progress_ratio == 1.0 and not baby.is_doing_action:
+		baby.start_action()

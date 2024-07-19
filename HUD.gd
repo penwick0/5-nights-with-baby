@@ -43,10 +43,7 @@ func _process(delta):
 				stamina_bar.value = 0
 
 	if baby.is_crying:
-		sleep_delay.stop()
-		deep_sleep_delay.stop()
-		is_sleeping = false
-		deep_sleep = false
+		wake_up()
 		sleep_button.disabled = true
 	else:
 		sleep_button.disabled = false
@@ -70,13 +67,15 @@ func _process(delta):
 		else:
 			portrait.texture = load("res://assets/parent/100%.png")
 
-func _on_sleep_button_button_up():
+func wake_up():
 	sleep_delay.stop()
 	deep_sleep_delay.stop()
 	is_sleeping = false
 	deep_sleep = false
-	baby.action_timer.stop()
-	baby.is_doing_action = false
+
+func _on_sleep_button_button_up():
+	wake_up()
+	baby.stop_action()
 
 func _on_sleep_button_button_down():
 	if not baby.is_crying:
@@ -111,9 +110,10 @@ func _on_baby_action_timer_timeout():
 	if baby.state == "window":
 		if is_window_open:
 			print("game over")
+			get_tree().paused = true
 		else:
 			window.icon = load("res://assets/room/windowopen.png")
 			is_window_open = true
-			baby.action_timer.start()
+			baby.start_action()
 	if baby.state == "outlet":
 		pass

@@ -90,3 +90,11 @@ func does_poop():
 	instance.spawn_position = sprite.global_position
 	hud.add_child.call_deferred(instance)
 	hud.poop_counter += 1
+
+func start_action():
+	action_timer.start()
+	is_doing_action = true
+
+func stop_action():
+	action_timer.stop()
+	is_doing_action = false
