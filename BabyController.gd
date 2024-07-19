@@ -3,6 +3,8 @@ extends Node
 class_name BabyController
 
 @onready var sprite: AnimatedSprite2D = %BabySprite
+@onready var tears_left: GPUParticles2D = %BabySprite/TearsLeft
+@onready var tears_right: GPUParticles2D = %BabySprite/TearsRight
 @onready var window_path: PathFollow2D = $WindowPath/FollowWindowPath
 @onready var outlet_path: PathFollow2D = $OutletPath/FollowOutletPath
 @onready var hud: HUD = %HUD
@@ -67,6 +69,7 @@ func _process(delta):
 		state = "sit"
 		cry_counter = 0
 		is_crying = false
+		emit_tears(false)
 	
 	# Animations
 	match state:
@@ -76,6 +79,7 @@ func _process(delta):
 			sprite.animation = "sleep"
 		"cry":
 			sprite.animation = "cry"
+			emit_tears(true)
 		"window":
 			sprite.animation = "climb"
 		"outlet":
@@ -90,6 +94,10 @@ func does_poop():
 	instance.spawn_position = sprite.global_position
 	hud.add_child.call_deferred(instance)
 	hud.poop_counter += 1
+
+func emit_tears(value: bool):
+	tears_left.emitting = value
+	tears_right.emitting = value
 
 func start_action():
 	action_timer.start()

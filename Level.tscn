@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bd8r13w6qy4ya"]
+[gd_scene load_steps=31 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Texture2D" uid="uid://cq1oop4dork0y" path="res://assets/room/background.png" id="1_2cxir"]
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
@@ -62,10 +62,6 @@ region = Rect2(0, 0, 100, 100)
 atlas = ExtResource("4_l7dhf")
 region = Rect2(0, 0, 100, 100)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7ey3a"]
-atlas = ExtResource("5_qv5xf")
-region = Rect2(0, 0, 100, 100)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_0cnhe"]
 atlas = ExtResource("7_bllr0")
 region = Rect2(0, 0, 100, 100)
@@ -90,7 +86,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7ey3a")
+"texture": ExtResource("5_qv5xf")
 }],
 "loop": true,
 "name": &"cry",
@@ -112,6 +108,32 @@ animations = [{
 "name": &"sleep",
 "speed": 5.0
 }]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_s1sig"]
+particle_flag_disable_z = true
+angle_max = 90.0
+direction = Vector3(1, -1, 0)
+spread = 15.0
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+gravity = Vector3(0, 98, 0)
+radial_accel_min = 50.0
+radial_accel_max = 50.0
+scale_max = 2.0
+color = Color(0.960044, 0.981623, 1, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_uanvd"]
+particle_flag_disable_z = true
+angle_max = 90.0
+direction = Vector3(-1, -1, 0)
+spread = 15.0
+initial_velocity_min = 20.0
+initial_velocity_max = 40.0
+gravity = Vector3(0, 98, 0)
+radial_accel_min = 50.0
+radial_accel_max = 50.0
+scale_max = 2.0
+color = Color(0.960044, 0.981623, 1, 1)
 
 [node name="Node" type="Node"]
 
@@ -241,7 +263,21 @@ state = "outlet"
 unique_name_in_owner = true
 position = Vector2(135, 286)
 sprite_frames = SubResource("SpriteFrames_bw1xg")
-animation = &"sit"
+animation = &"cry"
+
+[node name="TearsRight" type="GPUParticles2D" parent="BabyController/BabySprite"]
+position = Vector2(8, -3)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_s1sig")
+lifetime = 0.8
+
+[node name="TearsLeft" type="GPUParticles2D" parent="BabyController/BabySprite"]
+position = Vector2(-8, -3)
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_uanvd")
+lifetime = 0.8
 
 [node name="BabyActionTimer" type="Timer" parent="BabyController"]
 wait_time = 2.0
