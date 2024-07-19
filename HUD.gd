@@ -26,7 +26,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	print(baby.action_timer.time_left)
 	timer += delta
 	increment_rate = (2.0 * (1 + int(deep_sleep))) / (1.0 + float(poop_counter))
 	decrement_rate = (2.0 + poop_counter) * (1 + int(baby.is_crying))
@@ -76,6 +75,8 @@ func _on_sleep_button_button_up():
 	deep_sleep_delay.stop()
 	is_sleeping = false
 	deep_sleep = false
+	baby.action_timer.stop()
+	baby.is_doing_action = false
 
 func _on_sleep_button_button_down():
 	if not baby.is_crying:

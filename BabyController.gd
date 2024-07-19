@@ -21,6 +21,7 @@ var states: Array = [
 var rate: float = 1.0
 var cry_counter: int = 0
 var is_crying: bool = false
+var is_doing_action: bool = false
 
 func _ready():
 	pass # Replace with function body.
