@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cheqnh56onjr6"]
+[gd_scene load_steps=24 format=3 uid="uid://cheqnh56onjr6"]
 
 [ext_resource type="Script" path="res://Poop.gd" id="1_kpunl"]
 [ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="2_b470p"]
@@ -118,58 +118,6 @@ animations = [{
 "speed": 12.0
 }]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_fk71r"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dfwpq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p2cte")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mwjp6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eyyqa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sdysh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ukfi8")
-}],
-"loop": true,
-"name": &"default",
-"speed": 12.0
-}]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_d14vn"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sdysh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ukfi8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dfwpq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p2cte")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mwjp6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eyyqa")
-}],
-"loop": true,
-"name": &"default",
-"speed": 12.0
-}]
-
 [node name="Poop" type="Button"]
 custom_minimum_size = Vector2(40, 40)
 offset_right = 40.0
@@ -198,18 +146,18 @@ texture = ExtResource("3_cem2c")
 position = Vector2(7, -9)
 sprite_frames = SubResource("SpriteFrames_7mtmt")
 autoplay = "default"
-frame = 1
-frame_progress = 0.0363146
 
 [node name="StinkLine2" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
-position = Vector2(-7, -8)
-sprite_frames = SubResource("SpriteFrames_fk71r")
+position = Vector2(-7, -9)
+sprite_frames = SubResource("SpriteFrames_7mtmt")
 autoplay = "default"
+frame = 4
 
 [node name="StinkLine3" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
-position = Vector2(0, -14)
-sprite_frames = SubResource("SpriteFrames_d14vn")
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_7mtmt")
 autoplay = "default"
+frame = 2
 
 [connection signal="button_down" from="." to="." method="_on_button_down"]
 [connection signal="button_up" from="." to="." method="_on_button_up"]
