@@ -7,7 +7,8 @@ class_name HUD
 @onready var shh_timer = $ShhTimer
 @onready var portrait = %Portrait
 @onready var stamina_bar = %StaminaBar
-@onready var sleep_button = %SleepButton
+@onready var sleep_button: Button = %SleepButton
+@onready var shh_button: Button = %ShhButton
 @onready var baby: BabyController = %BabyController
 @onready var window = $Window
 @onready var window_delay = $WindowDelay
@@ -45,8 +46,10 @@ func _process(delta):
 	if baby.is_crying:
 		wake_up()
 		sleep_button.disabled = true
+		shh_button.text = str("Shh (", baby.cry_counter + 1, ")")
 	else:
 		sleep_button.disabled = false
+		shh_button.text = "Shh"
 
 	# Portrait management
 	if is_sleeping:

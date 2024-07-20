@@ -24,9 +24,11 @@ var rate: float = 1.0
 var cry_counter: int = 0
 var is_crying: bool = false
 var is_doing_action: bool = false
+var sit_position: Vector2
+var cry_shake_time: float = 0.0
 
 func _ready():
-	pass # Replace with function body.
+	sit_position = sprite.global_position
 
 func _process(delta):
 	timer += delta
@@ -75,11 +77,19 @@ func _process(delta):
 	match state:
 		"sit":
 			sprite.animation = "sit"
+			sprite.global_position = sit_position
 		"sleep":
 			sprite.animation = "sleep"
 		"cry":
 			sprite.animation = "cry"
+			# Tears (amount depends on cry_counter)
 			emit_tears(true)
+			var amount_ratio = clamp(cry_counter * 0.1, 0.25, 1.0)
+			tears_left.amount_ratio = amount_ratio
+			tears_right.amount_ratio = amount_ratio
+			# Shake (magnitude depends on cry_counter)
+			cry_shake_time += delta * clamp(cry_counter * 10, 10, 100)
+			sprite.global_position.x = sit_position.x + sin(cry_shake_time)
 		"window":
 			sprite.animation = "climb"
 		"outlet":

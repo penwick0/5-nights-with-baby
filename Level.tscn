@@ -213,6 +213,7 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_s3602")
 text = "Zzz"
 
 [node name="ShhButton" type="Button" parent="HUD/MarginContainer/Rows/Bottom/Actions"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_4tyxo")
@@ -263,19 +264,19 @@ state = "outlet"
 unique_name_in_owner = true
 position = Vector2(135, 286)
 sprite_frames = SubResource("SpriteFrames_bw1xg")
-animation = &"cry"
+animation = &"sit"
 
 [node name="TearsRight" type="GPUParticles2D" parent="BabyController/BabySprite"]
 position = Vector2(8, -3)
 emitting = false
-amount = 20
+amount = 100
 process_material = SubResource("ParticleProcessMaterial_s1sig")
 lifetime = 0.8
 
 [node name="TearsLeft" type="GPUParticles2D" parent="BabyController/BabySprite"]
 position = Vector2(-8, -3)
 emitting = false
-amount = 20
+amount = 100
 process_material = SubResource("ParticleProcessMaterial_uanvd")
 lifetime = 0.8
 
