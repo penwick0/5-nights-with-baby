@@ -2,16 +2,15 @@ extends CanvasLayer
 
 class_name HUD
 
-@onready var sleep_delay = $SleepDelay
-@onready var deep_sleep_delay = $DeepSleepDelay
-@onready var shh_timer = $ShhTimer
-@onready var portrait = %Portrait
-@onready var stamina_bar = %StaminaBar
+@onready var sleep_delay: Timer = $SleepDelay
+@onready var deep_sleep_delay: Timer = $DeepSleepDelay
+@onready var shh_timer: Timer = $ShhTimer
+@onready var portrait: TextureRect = %Portrait
+@onready var stamina_bar: ProgressBar = %StaminaBar
 @onready var sleep_button: Button = %SleepButton
 @onready var shh_button: Button = %ShhButton
 @onready var baby: BabyController = %BabyController
-@onready var window = $Window
-@onready var window_delay = $WindowDelay
+@onready var room_window: RoomWindow = $RoomWindow
 
 var increment_rate: float
 var decrement_rate: float
@@ -19,7 +18,6 @@ var timer: float = 0
 var is_sleeping: bool = false
 var deep_sleep: bool = false
 var poop_counter: int = 0
-var is_window_open: bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -70,53 +68,46 @@ func _process(delta):
 		else:
 			portrait.texture = load("res://assets/parent/100%.png")
 
+
 func wake_up():
 	sleep_delay.stop()
 	deep_sleep_delay.stop()
 	is_sleeping = false
 	deep_sleep = false
 
+
 func _on_sleep_button_button_up():
 	wake_up()
 	baby.stop_action()
+
 
 func _on_sleep_button_button_down():
 	if not baby.is_crying:
 		sleep_delay.start()
 
+
 func _on_sleep_delay_timeout():
 	is_sleeping = true
 	deep_sleep_delay.start()
+
 
 func _on_deep_sleep_delay_timeout():
 	deep_sleep = true
 	# deep sleep will reduce baby movement volume
 
+
 func _on_shh_button_pressed():
 	pass # Replace with function body.
 
-func _on_window_button_down():
-	window_delay.start()
-
-func _on_window_button_up():
-	window_delay.stop()
-
-func _on_window_delay_timeout():
-	if is_window_open:
-		window.icon = load("res://assets/room/windowclose.png")
-		is_window_open = false
-	else:
-		window.icon = load("res://assets/room/windowopen.png")
-		is_window_open = true
 
 func _on_baby_action_timer_timeout():
 	if baby.state == "window":
-		if is_window_open:
+		if room_window.is_open:
 			print("game over")
 			get_tree().paused = true
 		else:
-			window.icon = load("res://assets/room/windowopen.png")
-			is_window_open = true
+			room_window.open()
 			baby.start_action()
+
 	if baby.state == "outlet":
 		pass

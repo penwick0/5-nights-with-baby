@@ -3,7 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://cq1oop4dork0y" path="res://assets/room/background.png" id="1_2cxir"]
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
 [ext_resource type="Texture2D" uid="uid://biaufim8sfgy2" path="res://assets/parent/100%.png" id="2_d3gdg"]
-[ext_resource type="Texture2D" uid="uid://bsedifg70kyp" path="res://assets/room/windowclose.png" id="3_joo45"]
 [ext_resource type="Script" path="res://BabyController.gd" id="3_ope2v"]
 [ext_resource type="Texture2D" uid="uid://d4dlad8wuuer6" path="res://assets/baby/baby_climb.png" id="3_p1f1h"]
 [ext_resource type="Texture2D" uid="uid://chjpxrwfju8fd" path="res://assets/baby/baby_crawl.png" id="4_l7dhf"]
@@ -11,36 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bo77l62a8xn7o" path="res://assets/baby/baby_sit.png" id="6_fg8gu"]
 [ext_resource type="Texture2D" uid="uid://cm62k50eb7pw4" path="res://assets/baby/baby_sleep.png" id="7_bllr0"]
 [ext_resource type="Script" path="res://PathFollow2D.gd" id="9_uyle3"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ohad"]
-bg_color = Color(0.843137, 0.843137, 0.843137, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1ev7"]
-bg_color = Color(0, 0.72549, 0.207843, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4xta"]
-bg_color = Color(0.292061, 0.393343, 0.689076, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cxrtk"]
-bg_color = Color(0.213534, 0.299598, 0.558357, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_06232"]
-bg_color = Color(0.163893, 0.236075, 0.454236, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2n536"]
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s3602"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4tyxo"]
-bg_color = Color(0.292061, 0.393343, 0.689076, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_74leh"]
-bg_color = Color(0.213534, 0.299598, 0.558357, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtnpx"]
-bg_color = Color(0.163893, 0.236075, 0.454236, 1)
-
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sjqp1"]
+[ext_resource type="PackedScene" uid="uid://do0t80gcqgn8j" path="res://RoomWindow.tscn" id="12_hmhef"]
 
 [sub_resource type="Curve2D" id="Curve2D_2xjyt"]
 _data = {
@@ -135,11 +105,91 @@ radial_accel_max = 50.0
 scale_max = 2.0
 color = Color(0.960044, 0.981623, 1, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ohad"]
+bg_color = Color(0.843137, 0.843137, 0.843137, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w1ev7"]
+bg_color = Color(0, 0.72549, 0.207843, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4xta"]
+bg_color = Color(0.292061, 0.393343, 0.689076, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cxrtk"]
+bg_color = Color(0.213534, 0.299598, 0.558357, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_06232"]
+bg_color = Color(0.163893, 0.236075, 0.454236, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2n536"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s3602"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4tyxo"]
+bg_color = Color(0.292061, 0.393343, 0.689076, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_74leh"]
+bg_color = Color(0.213534, 0.299598, 0.558357, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtnpx"]
+bg_color = Color(0.163893, 0.236075, 0.454236, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sjqp1"]
+
 [node name="Node" type="Node"]
 
 [node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("1_2cxir")
 centered = false
+
+[node name="BabyController" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_ope2v")
+
+[node name="WindowPath" type="Path2D" parent="BabyController"]
+curve = SubResource("Curve2D_2xjyt")
+
+[node name="FollowWindowPath" type="PathFollow2D" parent="BabyController/WindowPath"]
+position = Vector2(135, 286)
+rotation = 3.11904
+rotates = false
+loop = false
+script = ExtResource("9_uyle3")
+state = "window"
+
+[node name="OutletPath" type="Path2D" parent="BabyController"]
+curve = SubResource("Curve2D_u1001")
+
+[node name="FollowOutletPath" type="PathFollow2D" parent="BabyController/OutletPath"]
+position = Vector2(135, 286)
+rotation = 3.11904
+rotates = false
+loop = false
+script = ExtResource("9_uyle3")
+state = "outlet"
+
+[node name="BabySprite" type="AnimatedSprite2D" parent="BabyController"]
+unique_name_in_owner = true
+position = Vector2(135, 286)
+sprite_frames = SubResource("SpriteFrames_bw1xg")
+animation = &"sit"
+
+[node name="TearsRight" type="GPUParticles2D" parent="BabyController/BabySprite"]
+position = Vector2(8, -3)
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_s1sig")
+lifetime = 0.8
+
+[node name="TearsLeft" type="GPUParticles2D" parent="BabyController/BabySprite"]
+position = Vector2(-8, -3)
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_uanvd")
+lifetime = 0.8
+
+[node name="BabyActionTimer" type="Timer" parent="BabyController"]
+wait_time = 2.0
+one_shot = true
 
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -224,74 +274,17 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_sjqp1")
 text = "Shh
 "
 
-[node name="WindowDelay" type="Timer" parent="HUD"]
+[node name="RoomWindow" parent="HUD" instance=ExtResource("12_hmhef")]
+offset_left = 74.0
+offset_top = 80.0
+offset_right = 123.0
+offset_bottom = 153.0
 
-[node name="Window" type="Button" parent="HUD"]
-offset_left = 68.0
-offset_top = 77.0
-offset_right = 127.0
-offset_bottom = 161.0
-icon = ExtResource("3_joo45")
-expand_icon = true
-
-[node name="BabyController" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource("3_ope2v")
-
-[node name="WindowPath" type="Path2D" parent="BabyController"]
-curve = SubResource("Curve2D_2xjyt")
-
-[node name="FollowWindowPath" type="PathFollow2D" parent="BabyController/WindowPath"]
-position = Vector2(135, 286)
-rotation = 3.11904
-rotates = false
-loop = false
-script = ExtResource("9_uyle3")
-state = "window"
-
-[node name="OutletPath" type="Path2D" parent="BabyController"]
-curve = SubResource("Curve2D_u1001")
-
-[node name="FollowOutletPath" type="PathFollow2D" parent="BabyController/OutletPath"]
-position = Vector2(135, 286)
-rotation = 3.11904
-rotates = false
-loop = false
-script = ExtResource("9_uyle3")
-state = "outlet"
-
-[node name="BabySprite" type="AnimatedSprite2D" parent="BabyController"]
-unique_name_in_owner = true
-position = Vector2(135, 286)
-sprite_frames = SubResource("SpriteFrames_bw1xg")
-animation = &"sit"
-
-[node name="TearsRight" type="GPUParticles2D" parent="BabyController/BabySprite"]
-position = Vector2(8, -3)
-emitting = false
-amount = 100
-process_material = SubResource("ParticleProcessMaterial_s1sig")
-lifetime = 0.8
-
-[node name="TearsLeft" type="GPUParticles2D" parent="BabyController/BabySprite"]
-position = Vector2(-8, -3)
-emitting = false
-amount = 100
-process_material = SubResource("ParticleProcessMaterial_uanvd")
-lifetime = 0.8
-
-[node name="BabyActionTimer" type="Timer" parent="BabyController"]
-wait_time = 2.0
-one_shot = true
-
-[connection signal="timeout" from="HUD/SleepDelay" to="HUD" method="_on_sleep_delay_timeout"]
+[connection signal="timeout" from="BabyController/BabyActionTimer" to="HUD" method="_on_baby_action_timer_timeout"]
 [connection signal="timeout" from="HUD/SleepDelay" to="BabyController" method="_on_sleep_delay_timeout"]
+[connection signal="timeout" from="HUD/SleepDelay" to="HUD" method="_on_sleep_delay_timeout"]
 [connection signal="timeout" from="HUD/DeepSleepDelay" to="HUD" method="_on_deep_sleep_delay_timeout"]
 [connection signal="button_down" from="HUD/MarginContainer/Rows/Bottom/Actions/SleepButton" to="HUD" method="_on_sleep_button_button_down"]
 [connection signal="button_up" from="HUD/MarginContainer/Rows/Bottom/Actions/SleepButton" to="HUD" method="_on_sleep_button_button_up"]
-[connection signal="pressed" from="HUD/MarginContainer/Rows/Bottom/Actions/ShhButton" to="HUD" method="_on_shh_button_pressed"]
 [connection signal="pressed" from="HUD/MarginContainer/Rows/Bottom/Actions/ShhButton" to="BabyController" method="_on_shh_button_pressed"]
-[connection signal="timeout" from="HUD/WindowDelay" to="HUD" method="_on_window_delay_timeout"]
-[connection signal="button_down" from="HUD/Window" to="HUD" method="_on_window_button_down"]
-[connection signal="button_up" from="HUD/Window" to="HUD" method="_on_window_button_up"]
-[connection signal="timeout" from="BabyController/BabyActionTimer" to="HUD" method="_on_baby_action_timer_timeout"]
+[connection signal="pressed" from="HUD/MarginContainer/Rows/Bottom/Actions/ShhButton" to="HUD" method="_on_shh_button_pressed"]

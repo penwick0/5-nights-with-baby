@@ -1,21 +1,16 @@
-[gd_scene load_steps=24 format=3 uid="uid://cheqnh56onjr6"]
+[gd_scene load_steps=25 format=3 uid="uid://cheqnh56onjr6"]
 
 [ext_resource type="Script" path="res://Poop.gd" id="1_kpunl"]
 [ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="2_b470p"]
 [ext_resource type="Texture2D" uid="uid://j44tmbkdsswd" path="res://assets/baby/stink_clouds.png" id="3_cem2c"]
 [ext_resource type="Texture2D" uid="uid://cugcypcc7bxtp" path="res://assets/baby/stink_lines.png" id="4_wvgas"]
+[ext_resource type="PackedScene" uid="uid://ctyptrklqsavv" path="res://CircularProgressBar.tscn" id="5_07tis"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sh1nu"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gmsr3"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8ao8o"]
-bg_color = Color(0, 0, 0, 0)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0, 0.704972, 0.496329, 1)
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h8yp3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gfkha"]
 
@@ -124,13 +119,10 @@ offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_sh1nu")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_gmsr3")
-theme_override_styles/pressed = SubResource("StyleBoxFlat_8ao8o")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_h8yp3")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_gfkha")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_02rys")
 script = ExtResource("1_kpunl")
-
-[node name="CleanTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(20, 25)
@@ -159,6 +151,15 @@ sprite_frames = SubResource("SpriteFrames_7mtmt")
 autoplay = "default"
 frame = 2
 
+[node name="CleanTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="CircularProgressBar" parent="." node_paths=PackedStringArray("timer") instance=ExtResource("5_07tis")]
+layout_mode = 0
+mouse_filter = 2
+timer = NodePath("../CleanTimer")
+
 [connection signal="button_down" from="." to="." method="_on_button_down"]
 [connection signal="button_up" from="." to="." method="_on_button_up"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="timeout" from="CleanTimer" to="." method="_on_clean_timer_timeout"]
