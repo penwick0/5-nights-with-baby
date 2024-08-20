@@ -10,6 +10,8 @@ class_name BabyController
 @onready var hud: HUD = %HUD
 @onready var poop = load("res://Poop.tscn")
 @onready var action_timer = $BabyActionTimer
+@onready var cry_audio = $CryAudio
+@onready var poop_audio = $PoopAudio
 
 var timer: float = 0.0
 var state: String = "sit"
@@ -40,6 +42,8 @@ func _process(delta):
 			rate = 4.0
 		"cry":
 			rate = 2.0
+		"window", "outlet":
+			rate = 4.0
 
 	# State Management
 	if timer >= rate:
@@ -90,6 +94,8 @@ func _process(delta):
 			# Shake (magnitude depends on cry_counter)
 			cry_shake_time += delta * clamp(cry_counter * 10, 10, 100)
 			sprite.global_position.x = sit_position.x + sin(cry_shake_time)
+			if not cry_audio.playing:
+				cry_audio.play()
 		"window":
 			sprite.animation = "climb"
 		"outlet":
@@ -104,6 +110,7 @@ func does_poop():
 	instance.spawn_position = sprite.global_position
 	hud.add_child.call_deferred(instance)
 	hud.poop_counter += 1
+	poop_audio.play()
 
 func emit_tears(value: bool):
 	tears_left.emitting = value
