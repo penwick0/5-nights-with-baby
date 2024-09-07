@@ -9,9 +9,11 @@ class_name BabyController
 @onready var outlet_path: PathFollow2D = $OutletPath/FollowOutletPath
 @onready var hud: HUD = %HUD
 @onready var poop = load("res://Poop.tscn")
+@onready var fork = load("res://Fork.tscn")
 @onready var action_timer = $BabyActionTimer
 @onready var cry_audio = $CryAudio
 @onready var poop_audio = $PoopAudio
+@onready var fork_hand: Area2D = $BabySprite/Area2D
 
 var timer: float = 0.0
 var state: String = "sit"
@@ -28,6 +30,7 @@ var is_crying: bool = false
 var is_doing_action: bool = false
 var sit_position: Vector2
 var cry_shake_time: float = 0.0
+var has_fork: bool = false
 
 func _ready():
 	sit_position = sprite.global_position
@@ -100,6 +103,12 @@ func _process(delta):
 			sprite.animation = "climb"
 		"outlet":
 			sprite.animation = "crawl"
+			if hud.is_sleeping and not is_doing_action:
+				fork_hand.monitorable = true
+				fork_hand.monitoring = true
+			else:
+				fork_hand.monitorable = false
+				fork_hand.monitoring = false
 
 func _on_shh_button_pressed():
 	if state == "cry":
@@ -112,14 +121,32 @@ func does_poop():
 	hud.poop_counter += 1
 	poop_audio.play()
 
+func drop_fork():
+	var instance = fork.instantiate()
+	instance.spawn_position = sprite.global_position
+	hud.add_child.call_deferred(instance)
+
 func emit_tears(value: bool):
 	tears_left.emitting = value
 	tears_right.emitting = value
 
 func start_action():
+	print_debug("start_action")
 	action_timer.start()
 	is_doing_action = true
 
 func stop_action():
+	print_debug("stop_action")
 	action_timer.stop()
 	is_doing_action = false
+
+func overcome_obstacle(current_state: String) -> bool:
+	match current_state:
+		"window":
+			return hud.drawer.is_open
+		"outlet":
+			return not hud.fork.visible
+	return false
+
+func _on_area_2d_area_entered(_area:Area2D):
+	has_fork = true

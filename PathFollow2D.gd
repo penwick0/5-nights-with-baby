@@ -1,6 +1,7 @@
 extends PathFollow2D
 
 @export var state: String
+@export var obstacle: float
 @onready var baby: BabyController = %BabyController
 @onready var hud: HUD = %HUD
 
@@ -11,9 +12,12 @@ func _ready():
 func _process(delta):
 	if baby.state == state:
 		if hud.is_sleeping:
-			progress_ratio += 0.25 * delta
+			if not baby.is_doing_action:
+				if progress_ratio >= obstacle and not baby.overcome_obstacle(state):
+					baby.start_action()
+				elif progress_ratio == 1.0:
+					baby.start_action()
+				else:
+					progress_ratio += 0.25 * delta
 		else:
 			progress_ratio -= 2 * delta
-
-	if progress_ratio == 1.0 and not baby.is_doing_action:
-		baby.start_action()

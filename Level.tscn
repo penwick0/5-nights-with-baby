@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bd8r13w6qy4ya"]
+[gd_scene load_steps=36 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Texture2D" uid="uid://cq1oop4dork0y" path="res://assets/room/background.png" id="1_2cxir"]
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
@@ -12,7 +12,9 @@
 [ext_resource type="AudioStream" uid="uid://cjudnsj7en1xl" path="res://assets/baby/cry.wav" id="9_uf52k"]
 [ext_resource type="Script" path="res://PathFollow2D.gd" id="9_uyle3"]
 [ext_resource type="AudioStream" uid="uid://baaxyygwmckb4" path="res://assets/baby/poop.wav" id="10_qbbca"]
-[ext_resource type="PackedScene" uid="uid://do0t80gcqgn8j" path="res://RoomWindow.tscn" id="12_hmhef"]
+[ext_resource type="PackedScene" path="res://RoomWindow.tscn" id="12_hmhef"]
+[ext_resource type="PackedScene" uid="uid://chvfo12duo08y" path="res://Drawer.tscn" id="14_es5i1"]
+[ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="15_6jim3"]
 
 [sub_resource type="Curve2D" id="Curve2D_2xjyt"]
 _data = {
@@ -80,6 +82,9 @@ animations = [{
 "name": &"sleep",
 "speed": 5.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kqg2u"]
+size = Vector2(29, 48)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_s1sig"]
 particle_flag_disable_z = true
@@ -157,6 +162,7 @@ rotates = false
 loop = false
 script = ExtResource("9_uyle3")
 state = "window"
+obstacle = 0.33
 
 [node name="OutletPath" type="Path2D" parent="BabyController"]
 curve = SubResource("Curve2D_u1001")
@@ -168,12 +174,19 @@ rotates = false
 loop = false
 script = ExtResource("9_uyle3")
 state = "outlet"
+obstacle = 0.55
 
 [node name="BabySprite" type="AnimatedSprite2D" parent="BabyController"]
 unique_name_in_owner = true
 position = Vector2(135, 286)
 sprite_frames = SubResource("SpriteFrames_bw1xg")
 animation = &"sit"
+
+[node name="Area2D" type="Area2D" parent="BabyController/BabySprite"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BabyController/BabySprite/Area2D"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_kqg2u")
 
 [node name="TearsRight" type="GPUParticles2D" parent="BabyController/BabySprite"]
 position = Vector2(8, -3)
@@ -288,6 +301,19 @@ offset_top = 80.0
 offset_right = 123.0
 offset_bottom = 153.0
 
+[node name="Drawer" parent="HUD" instance=ExtResource("14_es5i1")]
+offset_left = 48.0
+offset_top = 223.0
+offset_right = 73.0
+offset_bottom = 261.0
+
+[node name="Fork" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(33, 288)
+scale = Vector2(0.928571, 3.28571)
+texture = ExtResource("15_6jim3")
+
+[connection signal="area_entered" from="BabyController/BabySprite/Area2D" to="BabyController" method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="BabyController/BabyActionTimer" to="HUD" method="_on_baby_action_timer_timeout"]
 [connection signal="timeout" from="HUD/SleepDelay" to="BabyController" method="_on_sleep_delay_timeout"]
 [connection signal="timeout" from="HUD/SleepDelay" to="HUD" method="_on_sleep_delay_timeout"]

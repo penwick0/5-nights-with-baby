@@ -11,6 +11,8 @@ class_name HUD
 @onready var shh_button: Button = %ShhButton
 @onready var baby: BabyController = %BabyController
 @onready var room_window: RoomWindow = $RoomWindow
+@onready var drawer: Drawer = $Drawer
+@onready var fork: Sprite2D = %Fork
 
 var increment_rate: float
 var decrement_rate: float
@@ -79,6 +81,9 @@ func wake_up():
 func _on_sleep_button_button_up():
 	wake_up()
 	baby.stop_action()
+	if baby.has_fork:
+		baby.has_fork = false
+		baby.drop_fork()
 
 
 func _on_sleep_button_button_down():
@@ -102,12 +107,22 @@ func _on_shh_button_pressed():
 
 func _on_baby_action_timer_timeout():
 	if baby.state == "window":
-		if room_window.is_open:
-			print("game over")
-			get_tree().paused = true
+		if drawer.is_open:
+			if room_window.is_open:
+				print("game over")
+				get_tree().paused = true
+			else:
+				room_window.open()
+				baby.start_action()
 		else:
-			room_window.open()
-			baby.start_action()
+			drawer.open()
+			baby.stop_action()
 
 	if baby.state == "outlet":
-		pass
+		if baby.has_fork:
+			print("game over")
+			get_tree().paused = true
+		else:	
+			baby.has_fork = true
+			baby.stop_action()
+			fork.visible = false
