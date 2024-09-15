@@ -14,6 +14,11 @@ class_name HUD
 @onready var drawer: Drawer = $Drawer
 @onready var fork: Sprite2D = %Fork
 
+@onready var fade: ColorRect = $Sleep/Fade
+@onready var blur: ColorRect = $Sleep/Blur
+@onready var eyelid_top: ColorRect = $Sleep/EyelidTop
+@onready var eyelid_bottom: ColorRect = $Sleep/EyelidBottom
+
 var increment_rate: float
 var decrement_rate: float
 var timer: float = 0
@@ -21,12 +26,21 @@ var is_sleeping: bool = false
 var deep_sleep: bool = false
 var poop_counter: int = 0
 
+var fade_tween: Tween
+var blur_tween: Tween
+var eyelid_top_tween: Tween
+var eyelid_bottom_tween: Tween
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if (stamina_bar.value <= 0):
+		game_over()
+
 	timer += delta
 	increment_rate = (2.0 * (1 + int(deep_sleep))) / (1.0 + float(poop_counter))
 	decrement_rate = (2.0 + poop_counter) * (1 + int(baby.is_crying))
@@ -76,6 +90,51 @@ func wake_up():
 	deep_sleep_delay.stop()
 	is_sleeping = false
 	deep_sleep = false
+	open_eyelids()
+
+
+func open_eyelids():
+	create_property_tween("fade_tween", fade, "color", Color(0, 0, 0, 0), 0.1)
+	create_property_tween("eyelid_top_tween", eyelid_top, "scale", Vector2(1.0, 0.0), 0.1)
+	create_property_tween("eyelid_bottom_tween", eyelid_bottom, "scale", Vector2(1.0, 0.0), 0.1)
+	create_blur_tween(0.0, 0.4)
+
+
+func close_eyelids():
+	create_property_tween("fade_tween", fade, "color", Color(0, 0, 0, 1), sleep_delay.wait_time * 2)
+	create_property_tween("eyelid_top_tween", eyelid_top, "scale", Vector2(1.0, 1.0), sleep_delay.wait_time)
+	create_property_tween("eyelid_bottom_tween", eyelid_bottom, "scale", Vector2(1.0, 1.0), sleep_delay.wait_time)
+	create_blur_tween(2.0, sleep_delay.wait_time)
+
+
+func create_property_tween(tween_var_name: String, object: Object, property: NodePath, final_value: Variant, duration: float):
+	var tween = get(tween_var_name)
+	if (tween):
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(object, property, final_value, duration)
+	set(tween_var_name, tween)
+
+
+func create_blur_tween(lod: float, duration: float):
+	if (blur_tween):
+		blur_tween.kill()
+	blur_tween = create_tween()
+	blur_tween.tween_method(
+		func(value): blur.material.set("shader_parameter/lod", value),
+		blur.material.get("shader_parameter/lod"),
+		lod,
+		duration
+	)
+
+
+func game_over():
+	print("game over")
+	eyelid_top.scale.y = 0.0
+	eyelid_bottom.scale.y = 0.0
+	fade.color = Color(0.0, 0.0, 0.0, 0.0)
+	blur.material.set("shader_parameter/lod", 0.0)
+	get_tree().paused = true
 
 
 func _on_sleep_button_button_up():
@@ -89,6 +148,7 @@ func _on_sleep_button_button_up():
 func _on_sleep_button_button_down():
 	if not baby.is_crying:
 		sleep_delay.start()
+		close_eyelids()
 
 
 func _on_sleep_delay_timeout():
@@ -109,8 +169,7 @@ func _on_baby_action_timer_timeout():
 	if baby.state == "window":
 		if drawer.is_open:
 			if room_window.is_open:
-				print("game over")
-				get_tree().paused = true
+				game_over()
 			else:
 				room_window.open()
 				baby.start_action()
@@ -120,9 +179,17 @@ func _on_baby_action_timer_timeout():
 
 	if baby.state == "outlet":
 		if baby.has_fork:
-			print("game over")
-			get_tree().paused = true
-		else:	
+			game_over()
+		else:
 			baby.has_fork = true
 			baby.stop_action()
 			fork.visible = false
+		pass
+
+
+func _on_poop_cleaned():
+	poop_counter -= 1
+
+
+func _on_fork_cleaned():
+	fork.visible = true

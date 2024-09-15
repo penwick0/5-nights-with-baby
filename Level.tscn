@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bd8r13w6qy4ya"]
+[gd_scene load_steps=38 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Texture2D" uid="uid://cq1oop4dork0y" path="res://assets/room/background.png" id="1_2cxir"]
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
@@ -12,8 +12,9 @@
 [ext_resource type="AudioStream" uid="uid://cjudnsj7en1xl" path="res://assets/baby/cry.wav" id="9_uf52k"]
 [ext_resource type="Script" path="res://PathFollow2D.gd" id="9_uyle3"]
 [ext_resource type="AudioStream" uid="uid://baaxyygwmckb4" path="res://assets/baby/poop.wav" id="10_qbbca"]
-[ext_resource type="PackedScene" path="res://RoomWindow.tscn" id="12_hmhef"]
-[ext_resource type="PackedScene" uid="uid://chvfo12duo08y" path="res://Drawer.tscn" id="14_es5i1"]
+[ext_resource type="PackedScene" uid="uid://do0t80gcqgn8j" path="res://RoomWindow.tscn" id="12_hmhef"]
+[ext_resource type="PackedScene" path="res://Drawer.tscn" id="14_es5i1"]
+[ext_resource type="Shader" path="res://blur.gdshader" id="14_ylhyd"]
 [ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="15_6jim3"]
 
 [sub_resource type="Curve2D" id="Curve2D_2xjyt"]
@@ -142,6 +143,10 @@ bg_color = Color(0.163893, 0.236075, 0.454236, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sjqp1"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v28uf"]
+shader = ExtResource("14_ylhyd")
+shader_parameter/lod = 0.0
+
 [node name="Node" type="Node"]
 
 [node name="Background" type="Sprite2D" parent="."]
@@ -236,10 +241,12 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
+metadata/_edit_lock_ = true
 
 [node name="Rows" type="VBoxContainer" parent="HUD/MarginContainer"]
 layout_mode = 2
 alignment = 2
+metadata/_edit_lock_ = true
 
 [node name="Bottom" type="HBoxContainer" parent="HUD/MarginContainer/Rows"]
 layout_direction = 2
@@ -281,6 +288,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_cxrtk")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_06232")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_2n536")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_s3602")
+keep_pressed_outside = true
 text = "Zzz"
 
 [node name="ShhButton" type="Button" parent="HUD/MarginContainer/Rows/Bottom/Actions"]
@@ -306,6 +314,70 @@ offset_left = 48.0
 offset_top = 223.0
 offset_right = 73.0
 offset_bottom = 261.0
+
+[node name="PoopContainer" type="Control" parent="HUD"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 8
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="ForkContainer" type="Control" parent="HUD"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Sleep" type="Control" parent="HUD"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 270.0
+offset_bottom = 380.0
+mouse_filter = 2
+
+[node name="Blur" type="ColorRect" parent="HUD/Sleep"]
+material = SubResource("ShaderMaterial_v28uf")
+layout_mode = 0
+offset_right = 270.0
+offset_bottom = 383.0
+mouse_filter = 2
+
+[node name="EyelidTop" type="ColorRect" parent="HUD/Sleep"]
+layout_mode = 0
+offset_right = 270.0
+offset_bottom = 280.0
+scale = Vector2(1, 1e-05)
+color = Color(0, 0, 0, 1)
+
+[node name="EyelidBottom" type="ColorRect" parent="HUD/Sleep"]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 380.0
+offset_right = 540.0
+offset_bottom = 480.0
+rotation = 3.14159
+scale = Vector2(1, 1e-05)
+color = Color(0, 0, 0, 1)
+
+[node name="Fade" type="ColorRect" parent="HUD/Sleep"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
 
 [node name="Fork" type="Sprite2D" parent="."]
 unique_name_in_owner = true

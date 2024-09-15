@@ -1,8 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://br5f2ueulqmp3"]
+[gd_scene load_steps=11 format=3 uid="uid://dyf1rxj42qmu3"]
 
 [ext_resource type="Script" path="res://Fork.gd" id="1_ifg6n"]
 [ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="2_tho5n"]
-[ext_resource type="PackedScene" path="res://CircularProgressBar.tscn" id="5_ref0b"]
+[ext_resource type="PackedScene" uid="uid://ctyptrklqsavv" path="res://CircularProgressBar.tscn" id="5_ref0b"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sh1nu"]
 
@@ -44,13 +44,13 @@ position = Vector2(17, 5.99999)
 scale = Vector2(1.21429, 4.5)
 sprite_frames = SubResource("SpriteFrames_ge8kg")
 
-[node name="ForkTimer" type="Timer" parent="."]
+[node name="CleanTimer" type="Timer" parent="."]
 one_shot = true
 
 [node name="CircularProgressBar" parent="." node_paths=PackedStringArray("timer") instance=ExtResource("5_ref0b")]
 layout_mode = 0
 mouse_filter = 2
-timer = NodePath("../ForkTimer")
+timer = NodePath("../CleanTimer")
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -61,5 +61,5 @@ shape = SubResource("CapsuleShape2D_c5dt5")
 [connection signal="button_down" from="." to="." method="_on_button_down"]
 [connection signal="button_up" from="." to="." method="_on_button_up"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
-[connection signal="timeout" from="ForkTimer" to="." method="_on_fork_timer_timeout"]
+[connection signal="timeout" from="CleanTimer" to="." method="_on_clean_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

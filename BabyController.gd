@@ -8,8 +8,9 @@ class_name BabyController
 @onready var window_path: PathFollow2D = $WindowPath/FollowWindowPath
 @onready var outlet_path: PathFollow2D = $OutletPath/FollowOutletPath
 @onready var hud: HUD = %HUD
-@onready var poop = load("res://Poop.tscn")
 @onready var fork = load("res://Fork.tscn")
+@onready var poop_container: Control = %PoopContainer
+@onready var fork_container: Control = %ForkContainer
 @onready var action_timer = $BabyActionTimer
 @onready var cry_audio = $CryAudio
 @onready var poop_audio = $PoopAudio
@@ -115,16 +116,16 @@ func _on_shh_button_pressed():
 		cry_counter -= 1
 
 func does_poop():
-	var instance = poop.instantiate()
-	instance.spawn_position = sprite.global_position
-	hud.add_child.call_deferred(instance)
+	var poop = Poop.create(sprite.global_position)
+	poop.cleaned.connect(hud._on_poop_cleaned)
+	poop_container.add_child.call_deferred(poop)
 	hud.poop_counter += 1
 	poop_audio.play()
 
 func drop_fork():
-	var instance = fork.instantiate()
-	instance.spawn_position = sprite.global_position
-	hud.add_child.call_deferred(instance)
+	var instance = Fork.create(sprite.global_position)
+	instance.cleaned.connect(hud._on_fork_cleaned)
+	fork_container.add_child.call_deferred(instance)
 
 func emit_tears(value: bool):
 	tears_left.emitting = value
