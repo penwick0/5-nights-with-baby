@@ -10,6 +10,9 @@ func _ready():
 
 
 func _process(delta):
+	if baby.paused:
+		return
+
 	if baby.state == state:
 		if hud.is_sleeping:
 			if not baby.is_doing_action:

@@ -19,6 +19,10 @@ class_name HUD
 @onready var eyelid_top: ColorRect = $Sleep/EyelidTop
 @onready var eyelid_bottom: ColorRect = $Sleep/EyelidBottom
 
+@onready var game_over_screen: CanvasLayer = $GameOver
+
+var shh_button_text: String
+var paused: bool = false
 var increment_rate: float
 var decrement_rate: float
 var timer: float = 0
@@ -34,12 +38,20 @@ var eyelid_bottom_tween: Tween
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	shh_button_text = shh_button.text
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if paused:
+		return
+	
+	# Press "D" to quickly reduce stamina for testing
+	if (Input.is_action_just_pressed("die")):
+		stamina_bar.value = stamina_bar.value / 2
+
 	if (stamina_bar.value <= 0):
 		game_over()
+		return
 
 	timer += delta
 	increment_rate = (2.0 * (1 + int(deep_sleep))) / (1.0 + float(poop_counter))
@@ -58,12 +70,13 @@ func _process(delta):
 				stamina_bar.value = 0
 
 	if baby.is_crying:
-		wake_up()
+		if not sleep_button.disabled && (sleep_button.pressed || is_sleeping):
+			wake_up()
 		sleep_button.disabled = true
-		shh_button.text = str("Shh (", baby.cry_counter + 1, ")")
+		shh_button.text = str(shh_button_text, "\n[", baby.cry_counter + 1, "]")
 	else:
 		sleep_button.disabled = false
-		shh_button.text = "Shh"
+		shh_button.text = shh_button_text
 
 	# Portrait management
 	if is_sleeping:
@@ -94,9 +107,9 @@ func wake_up():
 
 
 func open_eyelids():
-	create_property_tween("fade_tween", fade, "color", Color(0, 0, 0, 0), 0.1)
-	create_property_tween("eyelid_top_tween", eyelid_top, "scale", Vector2(1.0, 0.0), 0.1)
-	create_property_tween("eyelid_bottom_tween", eyelid_bottom, "scale", Vector2(1.0, 0.0), 0.1)
+	create_property_tween("fade_tween", fade, "color", Color(0, 0, 0, 0), 0.2)
+	create_property_tween("eyelid_top_tween", eyelid_top, "scale", Vector2(1.0, 0.0), 0.2)
+	create_property_tween("eyelid_bottom_tween", eyelid_bottom, "scale", Vector2(1.0, 0.0), 0.2)
 	create_blur_tween(0.0, 0.4)
 
 
@@ -107,16 +120,29 @@ func close_eyelids():
 	create_blur_tween(2.0, sleep_delay.wait_time)
 
 
-func create_property_tween(tween_var_name: String, object: Object, property: NodePath, final_value: Variant, duration: float):
+func create_property_tween(
+	tween_var_name: String,
+	object: Object,
+	property: NodePath,
+	final_value: Variant,
+	duration: float,
+	transition: Tween.TransitionType = Tween.TransitionType.TRANS_CUBIC,
+	easing: Tween.EaseType = Tween.EaseType.EASE_OUT
+):
 	var tween = get(tween_var_name)
 	if (tween):
 		tween.kill()
 	tween = create_tween()
-	tween.tween_property(object, property, final_value, duration)
+	tween.tween_property(object, property, final_value, duration).set_trans(transition).set_ease(easing)
 	set(tween_var_name, tween)
 
 
-func create_blur_tween(lod: float, duration: float):
+func create_blur_tween(
+	lod: float,
+	duration: float,
+	transition: Tween.TransitionType = Tween.TransitionType.TRANS_LINEAR,
+	easing: Tween.EaseType = Tween.EaseType.EASE_OUT
+):
 	if (blur_tween):
 		blur_tween.kill()
 	blur_tween = create_tween()
@@ -125,16 +151,34 @@ func create_blur_tween(lod: float, duration: float):
 		blur.material.get("shader_parameter/lod"),
 		lod,
 		duration
-	)
+	).set_trans(transition).set_ease(easing)
 
 
 func game_over():
-	print("game over")
-	eyelid_top.scale.y = 0.0
-	eyelid_bottom.scale.y = 0.0
-	fade.color = Color(0.0, 0.0, 0.0, 0.0)
-	blur.material.set("shader_parameter/lod", 0.0)
-	get_tree().paused = true
+	paused = true
+	baby.paused = true
+	sleep_button.disabled = true
+	shh_button.disabled = true
+	wake_up()
+	game_over_screen.enter()
+
+
+func reset():
+	sleep_button.disabled = false
+	shh_button.disabled = false
+	shh_button.text = shh_button_text
+	timer = 0.0
+	is_sleeping = false
+	deep_sleep = false
+	poop_counter = 0
+	stamina_bar.value = 100.0
+	sleep_delay.stop()
+	deep_sleep_delay.stop()
+	room_window.close()
+	drawer.close()
+	fork.visible = true
+	baby.reset()
+	paused = false
 
 
 func _on_sleep_button_button_up():
@@ -193,3 +237,13 @@ func _on_poop_cleaned():
 
 func _on_fork_cleaned():
 	fork.visible = true
+
+
+func _on_retry_button_pressed():
+	game_over_screen.exit()
+	await get_tree().create_timer(0.5).timeout
+	reset()
+
+
+func _on_quit_button_pressed():
+	get_tree().quit()

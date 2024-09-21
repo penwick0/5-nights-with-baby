@@ -1,0 +1,51 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://batrgpoewbvsp"]
+
+[ext_resource type="FontFile" uid="uid://b6tv20yxd3cf6" path="res://assets/ui/fonts/Canont2.ttf" id="1_uocww"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gc2gi"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.325441, 0.325441, 0.325441, 1)
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kpl5n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qaryj"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.154876, 0.154876, 0.154876, 1)
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7ikrb"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0, 0, 1)
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ry42l"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.184575, 0.636778, 0.433446, 1)
+border_color = Color(0, 0, 0, 1)
+anti_aliasing = false
+
+[resource]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/fonts/font = ExtResource("1_uocww")
+Button/styles/disabled = SubResource("StyleBoxFlat_gc2gi")
+Button/styles/focus = SubResource("StyleBoxEmpty_kpl5n")
+Button/styles/hover = SubResource("StyleBoxFlat_qaryj")
+Button/styles/normal = SubResource("StyleBoxFlat_7ikrb")
+Button/styles/pressed = SubResource("StyleBoxFlat_ry42l")
+Label/fonts/font = ExtResource("1_uocww")
