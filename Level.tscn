@@ -1,8 +1,10 @@
-[gd_scene load_steps=34 format=3 uid="uid://bd8r13w6qy4ya"]
+[gd_scene load_steps=36 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Texture2D" uid="uid://cq1oop4dork0y" path="res://assets/room/background.png" id="1_2cxir"]
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
 [ext_resource type="Texture2D" uid="uid://biaufim8sfgy2" path="res://assets/parent/100%.png" id="2_d3gdg"]
+[ext_resource type="Texture2D" uid="uid://4xk7b1otg7rf" path="res://assets/room/DayNight.jpg" id="2_m5unm"]
+[ext_resource type="Script" path="res://DayNight.gd" id="3_7cf0a"]
 [ext_resource type="Script" path="res://BabyController.gd" id="3_ope2v"]
 [ext_resource type="Texture2D" uid="uid://d4dlad8wuuer6" path="res://assets/baby/baby_climb.png" id="3_p1f1h"]
 [ext_resource type="Texture2D" uid="uid://chjpxrwfju8fd" path="res://assets/baby/baby_crawl.png" id="4_l7dhf"]
@@ -12,7 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://cjudnsj7en1xl" path="res://assets/baby/cry.wav" id="9_uf52k"]
 [ext_resource type="Script" path="res://PathFollow2D.gd" id="9_uyle3"]
 [ext_resource type="AudioStream" uid="uid://baaxyygwmckb4" path="res://assets/baby/poop.wav" id="10_qbbca"]
-[ext_resource type="PackedScene" uid="uid://do0t80gcqgn8j" path="res://RoomWindow.tscn" id="12_hmhef"]
+[ext_resource type="PackedScene" path="res://RoomWindow.tscn" id="12_hmhef"]
 [ext_resource type="PackedScene" uid="uid://chvfo12duo08y" path="res://Drawer.tscn" id="14_es5i1"]
 [ext_resource type="Shader" path="res://blur.gdshader" id="14_ylhyd"]
 [ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="15_6jim3"]
@@ -141,6 +143,14 @@ outline_color = Color(0, 0, 0, 1)
 [node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("1_2cxir")
 centered = false
+
+[node name="DayNight" type="Sprite2D" parent="Background"]
+unique_name_in_owner = true
+show_behind_parent = true
+position = Vector2(135, 210)
+texture = ExtResource("2_m5unm")
+flip_h = true
+script = ExtResource("3_7cf0a")
 
 [node name="BabyController" type="Node" parent="."]
 unique_name_in_owner = true

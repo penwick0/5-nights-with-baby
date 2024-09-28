@@ -20,6 +20,7 @@ class_name HUD
 @onready var eyelid_bottom: ColorRect = $Sleep/EyelidBottom
 
 @onready var game_over_screen: CanvasLayer = $GameOver
+@onready var day_night: Sprite2D = %DayNight
 
 var shh_button_text: String
 var paused: bool = false
@@ -51,11 +52,16 @@ func _process(delta):
 
 	if (stamina_bar.value <= 0):
 		game_over()
+		# Consider forced sleep instead?
 		return
+
+	if day_night.rotation_degrees == 360.0:
+		game_over()
 
 	timer += delta
 	increment_rate = (2.0 * (1 + int(deep_sleep))) / (1.0 + float(poop_counter))
 	decrement_rate = (2.0 + poop_counter) * (1 + int(baby.is_crying))
+	# If window is open nullify or reduce poop debuff? eg. (poop_counter * int(room_window.is_open))
 	if timer >= 1.0:
 		timer -= 1.0
 		if is_sleeping:
@@ -172,6 +178,7 @@ func reset():
 	deep_sleep = false
 	poop_counter = 0
 	stamina_bar.value = 100.0
+	day_night.rotation_degrees = 0.0
 	sleep_delay.stop()
 	deep_sleep_delay.stop()
 	room_window.close()
