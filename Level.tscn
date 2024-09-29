@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://bd8r13w6qy4ya"]
+[gd_scene load_steps=41 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Texture2D" uid="uid://cq1oop4dork0y" path="res://assets/room/background.png" id="1_2cxir"]
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
@@ -14,13 +14,18 @@
 [ext_resource type="AudioStream" uid="uid://cjudnsj7en1xl" path="res://assets/baby/cry.wav" id="9_uf52k"]
 [ext_resource type="Script" path="res://PathFollow2D.gd" id="9_uyle3"]
 [ext_resource type="AudioStream" uid="uid://baaxyygwmckb4" path="res://assets/baby/poop.wav" id="10_qbbca"]
-[ext_resource type="PackedScene" path="res://RoomWindow.tscn" id="12_hmhef"]
+[ext_resource type="PackedScene" uid="uid://do0t80gcqgn8j" path="res://RoomWindow.tscn" id="12_hmhef"]
+[ext_resource type="AudioStream" uid="uid://dicmdb5rf3nc0" path="res://assets/sounds/fork-pick-up.wav" id="13_xirss"]
 [ext_resource type="PackedScene" uid="uid://chvfo12duo08y" path="res://Drawer.tscn" id="14_es5i1"]
+[ext_resource type="AudioStream" uid="uid://c25do4ygcsxd2" path="res://assets/sounds/fork-drop.wav" id="14_gripd"]
 [ext_resource type="Shader" path="res://blur.gdshader" id="14_ylhyd"]
 [ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="15_6jim3"]
+[ext_resource type="AudioStream" uid="uid://b82qjvpj6rckw" path="res://assets/sounds/electric-sparks.wav" id="15_tjkf6"]
 [ext_resource type="Theme" uid="uid://batrgpoewbvsp" path="res://resources/MenuTheme.tres" id="17_32j80"]
 [ext_resource type="FontFile" uid="uid://d1mfqsm0ohirw" path="res://assets/ui/fonts/Pixvetic.ttf" id="17_p4hv7"]
 [ext_resource type="Script" path="res://GameOver.gd" id="18_m0m3d"]
+[ext_resource type="AudioStream" uid="uid://dxtyw7tvgnds2" path="res://assets/sounds/fork-clean.wav" id="23_j1n2m"]
+[ext_resource type="AudioStream" uid="uid://dil7ipnxo4v1k" path="res://assets/sounds/explosion.mp3" id="26_6nj37"]
 
 [sub_resource type="Curve2D" id="Curve2D_2xjyt"]
 _data = {
@@ -151,6 +156,7 @@ position = Vector2(135, 210)
 texture = ExtResource("2_m5unm")
 flip_h = true
 script = ExtResource("3_7cf0a")
+rotation_speed = 1.0
 
 [node name="BabyController" type="Node" parent="."]
 unique_name_in_owner = true
@@ -215,6 +221,15 @@ stream = ExtResource("9_uf52k")
 
 [node name="PoopAudio" type="AudioStreamPlayer2D" parent="BabyController"]
 stream = ExtResource("10_qbbca")
+
+[node name="ForkPickUpAudio" type="AudioStreamPlayer2D" parent="BabyController"]
+stream = ExtResource("13_xirss")
+
+[node name="ForkDropAudio" type="AudioStreamPlayer2D" parent="BabyController"]
+stream = ExtResource("14_gripd")
+
+[node name="ElectricSparksAudio" type="AudioStreamPlayer2D" parent="BabyController"]
+stream = ExtResource("15_tjkf6")
 
 [node name="Fork" type="Sprite2D" parent="."]
 unique_name_in_owner = true
@@ -423,6 +438,12 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme = ExtResource("17_32j80")
 text = "Quit"
+
+[node name="ForkCleanAudio" type="AudioStreamPlayer2D" parent="HUD"]
+stream = ExtResource("23_j1n2m")
+
+[node name="ExplosionAudio" type="AudioStreamPlayer2D" parent="HUD"]
+stream = ExtResource("26_6nj37")
 
 [connection signal="area_entered" from="BabyController/BabySprite/Area2D" to="BabyController" method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="BabyController/BabyActionTimer" to="HUD" method="_on_baby_action_timer_timeout"]

@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://do0t80gcqgn8j"]
+[gd_scene load_steps=11 format=3 uid="uid://do0t80gcqgn8j"]
 
 [ext_resource type="Texture2D" uid="uid://bsedifg70kyp" path="res://assets/room/windowclose.png" id="1_wlrdj"]
 [ext_resource type="Script" path="res://RoomWindow.gd" id="2_73gl3"]
 [ext_resource type="PackedScene" uid="uid://ctyptrklqsavv" path="res://CircularProgressBar.tscn" id="3_42e4v"]
+[ext_resource type="AudioStream" uid="uid://cmorkris3shl6" path="res://assets/sounds/window-open.wav" id="4_imn80"]
+[ext_resource type="AudioStream" uid="uid://cagkb4vqlpqj3" path="res://assets/sounds/window-close.wav" id="5_au0qa"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2whc8"]
 
@@ -33,6 +35,12 @@ one_shot = true
 layout_mode = 0
 mouse_filter = 2
 timer = NodePath("../OpenCloseTimer")
+
+[node name="OpenAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_imn80")
+
+[node name="CloseAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_au0qa")
 
 [connection signal="button_down" from="." to="." method="_on_button_down"]
 [connection signal="button_up" from="." to="." method="_on_button_up"]

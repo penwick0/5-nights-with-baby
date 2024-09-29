@@ -13,6 +13,8 @@ class_name HUD
 @onready var room_window: RoomWindow = $RoomWindow
 @onready var drawer: Drawer = $Drawer
 @onready var fork: Sprite2D = %Fork
+@onready var fork_clean_audio: AudioStreamPlayer2D = $ForkCleanAudio
+@onready var explosion_audio: AudioStreamPlayer2D = $ExplosionAudio
 
 @onready var fade: ColorRect = $Sleep/Fade
 @onready var blur: ColorRect = $Sleep/Blur
@@ -230,11 +232,13 @@ func _on_baby_action_timer_timeout():
 
 	if baby.state == "outlet":
 		if baby.has_fork:
+			explosion_audio.play()
 			game_over()
 		else:
 			baby.has_fork = true
 			baby.stop_action()
 			fork.visible = false
+			baby.fork_pick_up_audio.play()
 		pass
 
 
@@ -244,6 +248,7 @@ func _on_poop_cleaned():
 
 func _on_fork_cleaned():
 	fork.visible = true
+	fork_clean_audio.play()
 
 
 func _on_retry_button_pressed():

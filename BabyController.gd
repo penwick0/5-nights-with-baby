@@ -12,8 +12,11 @@ class_name BabyController
 @onready var poop_container: Control = %PoopContainer
 @onready var fork_container: Control = %ForkContainer
 @onready var action_timer = $BabyActionTimer
-@onready var cry_audio = $CryAudio
-@onready var poop_audio = $PoopAudio
+@onready var cry_audio: AudioStreamPlayer2D = $CryAudio
+@onready var poop_audio: AudioStreamPlayer2D = $PoopAudio
+@onready var fork_pick_up_audio: AudioStreamPlayer2D = $ForkPickUpAudio
+@onready var fork_drop_audio: AudioStreamPlayer2D = $ForkDropAudio
+@onready var electric_sparks_audio: AudioStreamPlayer2D = $ElectricSparksAudio
 @onready var fork_hand: Area2D = $BabySprite/Area2D
 
 var paused: bool = false
@@ -128,6 +131,7 @@ func drop_fork():
 	var instance = Fork.create(sprite.global_position)
 	instance.cleaned.connect(hud._on_fork_cleaned)
 	fork_container.add_child.call_deferred(instance)
+	fork_drop_audio.play()
 
 
 func emit_tears(value: bool):
@@ -139,12 +143,15 @@ func start_action():
 	print_debug("start_action")
 	action_timer.start()
 	is_doing_action = true
+	if state == "outlet" and overcome_obstacle(state):
+		electric_sparks_audio.play()
 
 
 func stop_action():
 	print_debug("stop_action")
 	action_timer.stop()
 	is_doing_action = false
+	electric_sparks_audio.stop()
 
 
 func overcome_obstacle(current_state: String) -> bool:
@@ -166,6 +173,8 @@ func reset():
 	is_crying = false
 	cry_shake_time = 0.0
 	has_fork = false
+	window_path.progress_ratio = 0
+	outlet_path.progress_ratio = 0
 	for poop_child in poop_container.get_children():
 		poop_child.free()
 	for fork_child in fork_container.get_children():
@@ -180,3 +189,5 @@ func _on_shh_button_pressed():
 
 func _on_area_2d_area_entered(_area:Area2D):
 	has_fork = true
+	# TODO: Swap with different sound
+	fork_pick_up_audio.play()
