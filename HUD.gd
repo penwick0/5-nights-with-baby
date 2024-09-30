@@ -28,6 +28,7 @@ var shh_button_text: String
 var paused: bool = false
 var increment_rate: float
 var decrement_rate: float
+var base_decrement_rate: float = 2.0
 var timer: float = 0
 var is_sleeping: bool = false
 var deep_sleep: bool = false
@@ -54,16 +55,15 @@ func _process(delta):
 
 	if (stamina_bar.value <= 0):
 		game_over()
-		# Consider forced sleep instead?
+		# Consider forced sleep instead? This won't actually work if the baby is crying...
 		return
 
 	if day_night.rotation_degrees == 360.0:
 		game_over()
 
 	timer += delta
-	increment_rate = (2.0 * (1 + int(deep_sleep))) / (1.0 + float(poop_counter))
-	decrement_rate = (2.0 + poop_counter) * (1 + int(baby.is_crying))
-	# If window is open nullify or reduce poop debuff? eg. (poop_counter * int(room_window.is_open))
+	increment_rate = (2.0 * (1 + int(deep_sleep))) / (1.0 + float((poop_counter / (1.0 + float(room_window.is_open)))))
+	decrement_rate = (base_decrement_rate + (poop_counter / (1.0 + float(room_window.is_open)))) * (1 + int(baby.is_crying))
 	if timer >= 1.0:
 		timer -= 1.0
 		if is_sleeping:
@@ -211,7 +211,6 @@ func _on_sleep_delay_timeout():
 
 func _on_deep_sleep_delay_timeout():
 	deep_sleep = true
-	# deep sleep will reduce baby movement volume
 
 
 func _on_shh_button_pressed():
@@ -238,7 +237,8 @@ func _on_baby_action_timer_timeout():
 			baby.has_fork = true
 			baby.stop_action()
 			fork.visible = false
-			baby.fork_pick_up_audio.play()
+			if not deep_sleep:
+				baby.fork_pick_up_audio.play()
 		pass
 
 

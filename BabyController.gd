@@ -24,12 +24,15 @@ var timer: float = 0.0
 var state: String = "sit"
 var states: Array = [
 	"sit",
+	"sit",
+	"sleep",
 	"sleep",
 	"cry",
 	"window",
 	"outlet",
 ]
 var rate: float = 1.0
+var movement_speed: float = 0.25
 var cry_counter: int = 0
 var is_crying: bool = false
 var is_doing_action: bool = false
@@ -59,13 +62,13 @@ func _process(delta):
 	# State Management
 	if timer >= rate:
 		timer -= rate
-		if [true, false, false, false, false].pick_random():
+		if [true, false, false, false, false, false].pick_random():
 			does_poop()
 		if state == "sit" or state == "sleep":
 			state = states.pick_random()
 		if state == "cry":
 			if is_crying:
-				if [true, false].pick_random():
+				if [true, false, false, false].pick_random():
 					cry_counter += 1
 			else:
 				is_crying = true
@@ -124,7 +127,8 @@ func does_poop():
 	poop.cleaned.connect(hud._on_poop_cleaned)
 	poop_container.add_child.call_deferred(poop)
 	hud.poop_counter += 1
-	poop_audio.play()
+	if not hud.deep_sleep:
+		poop_audio.play()
 
 
 func drop_fork():
@@ -144,7 +148,8 @@ func start_action():
 	action_timer.start()
 	is_doing_action = true
 	if state == "outlet" and overcome_obstacle(state):
-		electric_sparks_audio.play()
+		if not hud.deep_sleep:
+			electric_sparks_audio.play()
 
 
 func stop_action():
@@ -190,4 +195,5 @@ func _on_shh_button_pressed():
 func _on_area_2d_area_entered(_area:Area2D):
 	has_fork = true
 	# TODO: Swap with different sound
-	fork_pick_up_audio.play()
+	if not hud.deep_sleep:
+		fork_pick_up_audio.play()

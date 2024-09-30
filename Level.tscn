@@ -248,7 +248,7 @@ one_shot = true
 one_shot = true
 
 [node name="DeepSleepDelay" type="Timer" parent="HUD"]
-wait_time = 5.0
+wait_time = 9.0
 one_shot = true
 
 [node name="MarginContainer" type="MarginContainer" parent="HUD"]

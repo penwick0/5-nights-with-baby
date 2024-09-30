@@ -21,6 +21,6 @@ func _process(delta):
 				elif progress_ratio == 1.0:
 					baby.start_action()
 				else:
-					progress_ratio += 0.25 * delta
+					progress_ratio += baby.movement_speed * delta
 		else:
 			progress_ratio -= 2 * delta

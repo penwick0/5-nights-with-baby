@@ -6,6 +6,7 @@ class_name Drawer
 @onready var progress_bar: CircularProgressBar = $CircularProgressBar
 @onready var open_audio: AudioStreamPlayer2D = $OpenAudio
 @onready var close_audio: AudioStreamPlayer2D = $CloseAudio
+@onready var hud: HUD = %HUD
 
 var is_open: bool = false
 
@@ -44,9 +45,11 @@ func _on_open_close_timer_timeout():
 func open():
 	is_open = true
 	icon = load("res://assets/room/windowopen.png")
-	open_audio.play()
+	if not hud.deep_sleep:
+		open_audio.play()
 
 func close():
 	is_open = false
 	icon = load("res://assets/room/windowclose.png")
-	close_audio.play()
+	if not hud.deep_sleep:
+		close_audio.play()
