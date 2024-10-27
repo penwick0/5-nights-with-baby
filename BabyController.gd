@@ -19,18 +19,40 @@ class_name BabyController
 @onready var electric_sparks_audio: AudioStreamPlayer2D = $ElectricSparksAudio
 @onready var fork_hand: Area2D = $BabySprite/Area2D
 
+# TODO: Separate states into awake and sleep states
+var level_settings: Dictionary = {
+	"1": {
+		"states": ["sit", "sit", "sleep", "sleep", "cry", "window", "outlet"],
+		"poop_chance": [true, false, false, false, false, false],
+		"movement_speed": 0.25,
+	},
+	"2": {
+		"states": ["sit", "sleep", "sleep", "cry", "window", "window", "outlet", "outlet"],
+		"poop_chance": [true, false, false, false, false, false],
+		"movement_speed": 0.25,
+	},
+	"3": {
+		"states": ["sit", "sleep", "cry", "cry", "window", "window", "outlet", "outlet"],
+		"poop_chance": [true, false, false, false],
+		"movement_speed": 0.5,
+	},
+	"4": {
+		"states": ["sleep", "cry", "cry", "window", "window", "window", "outlet", "outlet", "outlet"],
+		"poop_chance": [true, false, false, false],
+		"movement_speed": 0.5,
+	},
+	"5": {
+		"states": ["sleep", "cry", "cry", "cry", "window", "window", "window", "outlet", "outlet", "outlet"],
+		"poop_chance": [true, false, false],
+		"movement_speed": 0.75,
+	},
+}
+
 var paused: bool = false
 var timer: float = 0.0
 var state: String = "sit"
-var states: Array = [
-	"sit",
-	"sit",
-	"sleep",
-	"sleep",
-	"cry",
-	"window",
-	"outlet",
-]
+var states: Array
+var poop_chance: Array
 var rate: float = 1.0
 var movement_speed: float = 0.25
 var cry_counter: int = 0
@@ -62,7 +84,7 @@ func _process(delta):
 	# State Management
 	if timer >= rate:
 		timer -= rate
-		if [true, false, false, false, false, false].pick_random():
+		if poop_chance.pick_random():
 			does_poop()
 		if state == "sit" or state == "sleep":
 			state = states.pick_random()
@@ -166,6 +188,13 @@ func overcome_obstacle(current_state: String) -> bool:
 		"outlet":
 			return not hud.fork.visible
 	return false
+
+
+func set_level(level: int):
+	var level_key = str(level)
+	states = level_settings[level_key]["states"]
+	poop_chance = level_settings[level_key]["poop_chance"]
+	movement_speed = level_settings[level_key]["movement_speed"]
 
 
 func reset():

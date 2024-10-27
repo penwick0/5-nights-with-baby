@@ -43,6 +43,7 @@ var eyelid_bottom_tween: Tween
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	shh_button_text = shh_button.text
+	baby.set_level(1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
