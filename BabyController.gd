@@ -190,6 +190,11 @@ func overcome_obstacle(current_state: String) -> bool:
 	return false
 
 
+func pause(shouldPause: bool = true):
+	paused = shouldPause
+	action_timer.paused = shouldPause
+
+
 func set_level(level: int):
 	var level_key = str(level)
 	states = level_settings[level_key]["states"]
@@ -213,7 +218,7 @@ func reset():
 		poop_child.free()
 	for fork_child in fork_container.get_children():
 		fork_child.free()
-	paused = false
+	pause(false)
 
 
 func _on_shh_button_pressed():
@@ -221,7 +226,7 @@ func _on_shh_button_pressed():
 		cry_counter -= 1
 
 
-func _on_area_2d_area_entered(_area:Area2D):
+func _on_area_2d_area_entered(_area: Area2D):
 	has_fork = true
 	# TODO: Swap with different sound
 	if not hud.deep_sleep:

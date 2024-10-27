@@ -13,6 +13,7 @@ class_name HUD
 @onready var room_window: RoomWindow = $RoomWindow
 @onready var drawer: Drawer = $Drawer
 @onready var fork: Sprite2D = %Fork
+@onready var level_label: Label = $LevelLabel
 @onready var fork_clean_audio: AudioStreamPlayer2D = $ForkCleanAudio
 @onready var explosion_audio: AudioStreamPlayer2D = $ExplosionAudio
 @onready var chimes_audio: AudioStreamPlayer2D = $ChimesAudio
@@ -26,7 +27,7 @@ class_name HUD
 @onready var end_level_screen: CanvasLayer = $EndLevel
 @onready var end_level_screen_timer: Timer = $EndLevel/Timer
 @onready var game_over_screen: CanvasLayer = $GameOver
-@onready var day_night: Sprite2D = %DayNight
+@onready var day_night: DayNight = %DayNight
 
 var shh_button_text: String
 var paused: bool = false
@@ -37,7 +38,7 @@ var timer: float = 0
 var is_sleeping: bool = false
 var deep_sleep: bool = false
 var poop_counter: int = 0
-var level: int = 1
+var level: int
 
 var fade_tween: Tween
 var blur_tween: Tween
@@ -48,7 +49,7 @@ var eyelid_bottom_tween: Tween
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	shh_button_text = shh_button.text
-	baby.set_level(level)
+	set_level(1)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -58,6 +59,10 @@ func _process(delta):
 	# Press "D" to quickly reduce stamina for testing
 	if (Input.is_action_just_pressed("die")):
 		stamina_bar.value = stamina_bar.value / 2
+
+	# Press "E" to end the level for testing
+	if (Input.is_action_just_pressed("end level")):
+		day_night.rotation_degrees = 360.0
 
 	if (stamina_bar.value <= 0):
 		game_over()
@@ -169,11 +174,22 @@ func create_blur_tween(
 	).set_trans(transition).set_ease(easing)
 
 
-func end_level():
+func set_level(newLevel: int):
+	level = newLevel
+	level_label.text = str("Level ", newLevel)
+	baby.set_level(newLevel)
+
+
+func pause():
 	paused = true
-	baby.paused = true
+	baby.pause()
+	day_night.paused = true
 	sleep_button.disabled = true
 	shh_button.disabled = true
+
+
+func end_level():
+	pause()
 	wake_up()
 	end_level_screen.visible = true
 	end_level_screen_timer.start()
@@ -181,10 +197,7 @@ func end_level():
 
 
 func game_over():
-	paused = true
-	baby.paused = true
-	sleep_button.disabled = true
-	shh_button.disabled = true
+	pause()
 	wake_up()
 	game_over_screen.enter()
 
@@ -199,6 +212,7 @@ func reset():
 	poop_counter = 0
 	stamina_bar.value = 100.0
 	day_night.rotation_degrees = 0.0
+	day_night.paused = false
 	sleep_delay.stop()
 	deep_sleep_delay.stop()
 	room_window.close()
@@ -272,6 +286,7 @@ func _on_fork_cleaned():
 func _on_retry_button_pressed():
 	game_over_screen.exit()
 	await get_tree().create_timer(0.5).timeout
+	set_level(1)
 	reset()
 
 
@@ -285,8 +300,7 @@ func _on_end_level_screen_timer_timeout():
 		children_cheering_audio.play()
 		game_over()
 	else:
-		level += 1
-		baby.set_level(level)
+		set_level(level + 1)
 		end_level_screen.visible = false
 		reset()
 

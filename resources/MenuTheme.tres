@@ -48,4 +48,6 @@ Button/styles/focus = SubResource("StyleBoxEmpty_kpl5n")
 Button/styles/hover = SubResource("StyleBoxFlat_qaryj")
 Button/styles/normal = SubResource("StyleBoxFlat_7ikrb")
 Button/styles/pressed = SubResource("StyleBoxFlat_ry42l")
+Label/colors/font_outline_color = Color(0, 0, 0, 1)
+Label/constants/outline_size = 7
 Label/fonts/font = ExtResource("1_uocww")
