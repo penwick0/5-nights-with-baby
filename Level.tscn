@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bd8r13w6qy4ya"]
+[gd_scene load_steps=43 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Texture2D" uid="uid://cq1oop4dork0y" path="res://assets/room/background.png" id="1_2cxir"]
 [ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
@@ -26,6 +26,8 @@
 [ext_resource type="Script" path="res://GameOver.gd" id="18_m0m3d"]
 [ext_resource type="AudioStream" uid="uid://dxtyw7tvgnds2" path="res://assets/sounds/fork-clean.wav" id="23_j1n2m"]
 [ext_resource type="AudioStream" uid="uid://dil7ipnxo4v1k" path="res://assets/sounds/explosion.mp3" id="26_6nj37"]
+[ext_resource type="AudioStream" uid="uid://3f7rww72ymyu" path="res://assets/sounds/clock-chimes.ogg" id="27_tmaca"]
+[ext_resource type="AudioStream" uid="uid://cfef80r8lavo" path="res://assets/sounds/children-cheering.ogg" id="28_n7m2x"]
 
 [sub_resource type="Curve2D" id="Curve2D_2xjyt"]
 _data = {
@@ -156,7 +158,6 @@ position = Vector2(135, 210)
 texture = ExtResource("2_m5unm")
 flip_h = true
 script = ExtResource("3_7cf0a")
-rotation_speed = 1.0
 
 [node name="BabyController" type="Node" parent="."]
 unique_name_in_owner = true
@@ -439,11 +440,54 @@ size_flags_horizontal = 4
 theme = ExtResource("17_32j80")
 text = "Quit"
 
+[node name="EndLevel" type="CanvasLayer" parent="HUD"]
+visible = false
+
+[node name="Background" type="ColorRect" parent="HUD/EndLevel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/EndLevel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/EndLevel/CenterContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="Label" type="Label" parent="HUD/EndLevel/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "6AM"
+label_settings = SubResource("LabelSettings_vdreu")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="HUD/EndLevel"]
+wait_time = 5.0
+one_shot = true
+
 [node name="ForkCleanAudio" type="AudioStreamPlayer2D" parent="HUD"]
 stream = ExtResource("23_j1n2m")
 
 [node name="ExplosionAudio" type="AudioStreamPlayer2D" parent="HUD"]
 stream = ExtResource("26_6nj37")
+
+[node name="ChimesAudio" type="AudioStreamPlayer2D" parent="HUD"]
+stream = ExtResource("27_tmaca")
+
+[node name="ChildrenCheeringAudio" type="AudioStreamPlayer2D" parent="HUD"]
+stream = ExtResource("28_n7m2x")
 
 [connection signal="area_entered" from="BabyController/BabySprite/Area2D" to="BabyController" method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="BabyController/BabyActionTimer" to="HUD" method="_on_baby_action_timer_timeout"]
@@ -456,3 +500,4 @@ stream = ExtResource("26_6nj37")
 [connection signal="pressed" from="HUD/MarginContainer/Rows/Bottom/Actions/ShhButton" to="HUD" method="_on_shh_button_pressed"]
 [connection signal="pressed" from="HUD/GameOver/CenterContainer/VBoxContainer/RetryButton" to="HUD" method="_on_retry_button_pressed"]
 [connection signal="pressed" from="HUD/GameOver/CenterContainer/VBoxContainer/QuitButton" to="HUD" method="_on_quit_button_pressed"]
+[connection signal="timeout" from="HUD/EndLevel/Timer" to="HUD" method="_on_end_level_screen_timer_timeout"]

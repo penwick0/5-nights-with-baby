@@ -15,12 +15,16 @@ class_name HUD
 @onready var fork: Sprite2D = %Fork
 @onready var fork_clean_audio: AudioStreamPlayer2D = $ForkCleanAudio
 @onready var explosion_audio: AudioStreamPlayer2D = $ExplosionAudio
+@onready var chimes_audio: AudioStreamPlayer2D = $ChimesAudio
+@onready var children_cheering_audio: AudioStreamPlayer2D = $ChildrenCheeringAudio
 
 @onready var fade: ColorRect = $Sleep/Fade
 @onready var blur: ColorRect = $Sleep/Blur
 @onready var eyelid_top: ColorRect = $Sleep/EyelidTop
 @onready var eyelid_bottom: ColorRect = $Sleep/EyelidBottom
 
+@onready var end_level_screen: CanvasLayer = $EndLevel
+@onready var end_level_screen_timer: Timer = $EndLevel/Timer
 @onready var game_over_screen: CanvasLayer = $GameOver
 @onready var day_night: Sprite2D = %DayNight
 
@@ -33,6 +37,7 @@ var timer: float = 0
 var is_sleeping: bool = false
 var deep_sleep: bool = false
 var poop_counter: int = 0
+var level: int = 1
 
 var fade_tween: Tween
 var blur_tween: Tween
@@ -43,7 +48,7 @@ var eyelid_bottom_tween: Tween
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	shh_button_text = shh_button.text
-	baby.set_level(1)
+	baby.set_level(level)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -60,7 +65,8 @@ func _process(delta):
 		return
 
 	if day_night.rotation_degrees == 360.0:
-		game_over()
+		end_level()
+		return
 
 	timer += delta
 	increment_rate = (2.0 * (1 + int(deep_sleep))) / (1.0 + float((poop_counter / (1.0 + float(room_window.is_open)))))
@@ -163,6 +169,17 @@ func create_blur_tween(
 	).set_trans(transition).set_ease(easing)
 
 
+func end_level():
+	paused = true
+	baby.paused = true
+	sleep_button.disabled = true
+	shh_button.disabled = true
+	wake_up()
+	end_level_screen.visible = true
+	end_level_screen_timer.start()
+	chimes_audio.play()
+
+
 func game_over():
 	paused = true
 	baby.paused = true
@@ -260,3 +277,16 @@ func _on_retry_button_pressed():
 
 func _on_quit_button_pressed():
 	get_tree().quit()
+
+
+func _on_end_level_screen_timer_timeout():
+	if (level == 5):
+		end_level_screen.visible = false
+		children_cheering_audio.play()
+		game_over()
+	else:
+		level += 1
+		baby.set_level(level)
+		end_level_screen.visible = false
+		reset()
+
