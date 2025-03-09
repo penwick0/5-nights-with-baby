@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://cheqnh56onjr6"]
 
-[ext_resource type="Script" path="res://Poop.gd" id="1_kpunl"]
+[ext_resource type="Script" uid="uid://dwyi1ykmx7ofp" path="res://Poop.gd" id="1_kpunl"]
 [ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="2_b470p"]
 [ext_resource type="Texture2D" uid="uid://j44tmbkdsswd" path="res://assets/baby/stink_clouds.png" id="3_cem2c"]
 [ext_resource type="Texture2D" uid="uid://cugcypcc7bxtp" path="res://assets/baby/stink_lines.png" id="4_wvgas"]

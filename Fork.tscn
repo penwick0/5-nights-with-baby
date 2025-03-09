@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://dyf1rxj42qmu3"]
 
-[ext_resource type="Script" path="res://Fork.gd" id="1_ifg6n"]
+[ext_resource type="Script" uid="uid://bdjh8cacnbngv" path="res://Fork.gd" id="1_ifg6n"]
 [ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="2_tho5n"]
 [ext_resource type="PackedScene" uid="uid://ctyptrklqsavv" path="res://CircularProgressBar.tscn" id="5_ref0b"]
 

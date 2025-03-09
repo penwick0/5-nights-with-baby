@@ -1,29 +1,29 @@
 [gd_scene load_steps=43 format=3 uid="uid://bd8r13w6qy4ya"]
 
 [ext_resource type="Texture2D" uid="uid://cq1oop4dork0y" path="res://assets/room/background.png" id="1_2cxir"]
-[ext_resource type="Script" path="res://HUD.gd" id="1_op03q"]
+[ext_resource type="Script" uid="uid://xsf1alnkwyxp" path="res://HUD.gd" id="1_op03q"]
 [ext_resource type="Texture2D" uid="uid://biaufim8sfgy2" path="res://assets/parent/100%.png" id="2_d3gdg"]
 [ext_resource type="Texture2D" uid="uid://4xk7b1otg7rf" path="res://assets/room/DayNight.jpg" id="2_m5unm"]
-[ext_resource type="Script" path="res://DayNight.gd" id="3_7cf0a"]
-[ext_resource type="Script" path="res://BabyController.gd" id="3_ope2v"]
+[ext_resource type="Script" uid="uid://cglscto6dd4sw" path="res://DayNight.gd" id="3_7cf0a"]
+[ext_resource type="Script" uid="uid://dp4n03wxt4dsj" path="res://BabyController.gd" id="3_ope2v"]
 [ext_resource type="Texture2D" uid="uid://d4dlad8wuuer6" path="res://assets/baby/baby_climb.png" id="3_p1f1h"]
 [ext_resource type="Texture2D" uid="uid://chjpxrwfju8fd" path="res://assets/baby/baby_crawl.png" id="4_l7dhf"]
 [ext_resource type="Texture2D" uid="uid://btr8ogcotj3i5" path="res://assets/baby/baby_cry.png" id="5_qv5xf"]
 [ext_resource type="Texture2D" uid="uid://bo77l62a8xn7o" path="res://assets/baby/baby_sit.png" id="6_fg8gu"]
 [ext_resource type="Texture2D" uid="uid://cm62k50eb7pw4" path="res://assets/baby/baby_sleep.png" id="7_bllr0"]
 [ext_resource type="AudioStream" uid="uid://cjudnsj7en1xl" path="res://assets/baby/cry.wav" id="9_uf52k"]
-[ext_resource type="Script" path="res://PathFollow2D.gd" id="9_uyle3"]
+[ext_resource type="Script" uid="uid://bjuuhpwbbvx2d" path="res://PathFollow2D.gd" id="9_uyle3"]
 [ext_resource type="AudioStream" uid="uid://baaxyygwmckb4" path="res://assets/baby/poop.wav" id="10_qbbca"]
 [ext_resource type="PackedScene" uid="uid://do0t80gcqgn8j" path="res://RoomWindow.tscn" id="12_hmhef"]
 [ext_resource type="AudioStream" uid="uid://dicmdb5rf3nc0" path="res://assets/sounds/fork-pick-up.wav" id="13_xirss"]
 [ext_resource type="PackedScene" uid="uid://chvfo12duo08y" path="res://Drawer.tscn" id="14_es5i1"]
 [ext_resource type="AudioStream" uid="uid://c25do4ygcsxd2" path="res://assets/sounds/fork-drop.wav" id="14_gripd"]
-[ext_resource type="Shader" path="res://blur.gdshader" id="14_ylhyd"]
+[ext_resource type="Shader" uid="uid://c8cghp1nm7rnb" path="res://blur.gdshader" id="14_ylhyd"]
 [ext_resource type="Texture2D" uid="uid://cfd20blu6ud54" path="res://assets/baby/poop.png" id="15_6jim3"]
 [ext_resource type="AudioStream" uid="uid://b82qjvpj6rckw" path="res://assets/sounds/electric-sparks.wav" id="15_tjkf6"]
 [ext_resource type="Theme" uid="uid://batrgpoewbvsp" path="res://resources/MenuTheme.tres" id="17_32j80"]
 [ext_resource type="FontFile" uid="uid://d1mfqsm0ohirw" path="res://assets/ui/fonts/Pixvetic.ttf" id="17_p4hv7"]
-[ext_resource type="Script" path="res://GameOver.gd" id="18_m0m3d"]
+[ext_resource type="Script" uid="uid://do3dlaf8dhwdx" path="res://GameOver.gd" id="18_m0m3d"]
 [ext_resource type="AudioStream" uid="uid://dxtyw7tvgnds2" path="res://assets/sounds/fork-clean.wav" id="23_j1n2m"]
 [ext_resource type="AudioStream" uid="uid://dil7ipnxo4v1k" path="res://assets/sounds/explosion.mp3" id="26_6nj37"]
 [ext_resource type="AudioStream" uid="uid://3f7rww72ymyu" path="res://assets/sounds/clock-chimes.ogg" id="27_tmaca"]
@@ -203,15 +203,15 @@ shape = SubResource("RectangleShape2D_kqg2u")
 position = Vector2(8, -3)
 emitting = false
 amount = 100
-process_material = SubResource("ParticleProcessMaterial_s1sig")
 lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_s1sig")
 
 [node name="TearsLeft" type="GPUParticles2D" parent="BabyController/BabySprite"]
 position = Vector2(-8, -3)
 emitting = false
 amount = 100
-process_material = SubResource("ParticleProcessMaterial_uanvd")
 lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_uanvd")
 
 [node name="BabyActionTimer" type="Timer" parent="BabyController"]
 wait_time = 2.0

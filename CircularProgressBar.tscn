@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://gexls8xmbu0i" path="res://assets/ui/circle_progress_bar_inner.png" id="1_mnsy1"]
 [ext_resource type="Texture2D" uid="uid://c10f3u0h3xgef" path="res://assets/ui/circle_progress_bar_outer.png" id="2_lbu6t"]
-[ext_resource type="Script" path="res://CircularPorgressBar.gd" id="3_jcfg6"]
+[ext_resource type="Script" uid="uid://olgmeqqke566" path="res://CircularPorgressBar.gd" id="3_jcfg6"]
 
 [node name="CircularProgressBar" type="TextureProgressBar"]
 visible = false

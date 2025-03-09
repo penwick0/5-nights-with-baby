@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://chvfo12duo08y"]
 
 [ext_resource type="Texture2D" uid="uid://bsedifg70kyp" path="res://assets/room/windowclose.png" id="1_txauh"]
-[ext_resource type="Script" path="res://Drawer.gd" id="2_2lua3"]
+[ext_resource type="Script" uid="uid://b8dh3by4vx8e" path="res://Drawer.gd" id="2_2lua3"]
 [ext_resource type="PackedScene" uid="uid://ctyptrklqsavv" path="res://CircularProgressBar.tscn" id="3_1p4ne"]
 [ext_resource type="AudioStream" uid="uid://scdxx3uv40qg" path="res://assets/sounds/drawer-open.wav" id="4_3d6u3"]
 [ext_resource type="AudioStream" uid="uid://cbmbiq30dqgcr" path="res://assets/sounds/drawer-close.wav" id="5_011xu"]
